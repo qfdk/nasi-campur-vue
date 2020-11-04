@@ -45,7 +45,7 @@
               <span>添加新服务器</span>
             </el-menu-item>
           </el-submenu>
-          <el-menu-item @click="toggleButton">
+          <el-menu-item index="#" @click="toggleButton">
             <i :class="isCollapsed?'el-icon-s-unfold':'el-icon-s-fold'"></i>
             <span slot="title">{{ isCollapsed ? '展开菜单' : '折叠菜单' }}</span>
           </el-menu-item>

@@ -33,13 +33,11 @@
         ></el-table-column>
         <el-table-column
             prop="wechatName"
-            label="微信账号"
-            width="180">
+            label="微信账号">
         </el-table-column>
         <el-table-column
             prop="nickname"
-            label="昵称"
-            width="180">
+            label="昵称">
         </el-table-column>
         <el-table-column
             prop="server.country"
@@ -65,6 +63,10 @@
           </template>
         </el-table-column>
         <el-table-column
+            prop="containerPort"
+            label="容器端口">
+        </el-table-column>
+        <el-table-column
             label="支付">
           <template slot-scope="scope">
             <el-switch
@@ -79,7 +81,7 @@
         <el-table-column
             label="操作">
           <template slot-scope="scope">
-            <el-button size="mini" type="primary" icon="el-icon-edit"></el-button>
+            <el-button size="mini" type="primary" icon="el-icon-edit" @click="editUser(scope.row._id)"></el-button>
             <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteUser(scope.row)"></el-button>
           </template>
         </el-table-column>
@@ -161,6 +163,10 @@ export default {
             this.$message.success("删除成功!");
           })
       await this.getUserList();
+    },
+    editUser(id) {
+      this.$router.push(`/users/${id}/edit`);
+      window.sessionStorage.removeItem("activePath")
     },
     createUser() {
       this.$router.push({name: 'create-user'});

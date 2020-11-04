@@ -3,11 +3,11 @@
     <el-breadcrumb separator="/">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-      <el-breadcrumb-item>添加新用户</el-breadcrumb-item>
+      <el-breadcrumb-item>编辑新用户</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>添加新用户</span>
+        <span>编辑新用户</span>
       </div>
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
         <el-form-item label="微信名" prop="wechatName">
@@ -25,7 +25,8 @@
         <el-form-item label="服务区域" prop="region">
           <el-col :span="8">
             <el-select v-model="ruleForm.serverId" placeholder="请选择服务区域" style="width: 100%">
-              <el-option v-for="server in servers" :key="server.id"
+              <el-option v-for="server in servers"
+                         :key="server.id"
                          :label="`${(server.location)} (${(server.country)})`"
                          :value="server._id">
                 {{ server.location }}({{ server.country }})
@@ -37,11 +38,8 @@
         <el-form-item label="开始日期" required>
           <el-col :span="8">
             <el-form-item prop="startTime">
-              <el-date-picker
-                  type="date" placeholder="选择日期"
-                  v-model="ruleForm.startTime"
-                  value-format="yyyy-MM-dd"
-                  style="width: 100%;"></el-date-picker>
+              <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.startTime" value-format="yyyy-MM-dd"
+                              style="width: 100%;"></el-date-picker>
             </el-form-item>
           </el-col>
         </el-form-item>
@@ -49,9 +47,7 @@
         <el-form-item label="结束日期" required>
           <el-col :span="8">
             <el-form-item prop="endTime">
-              <el-date-picker type="date" placeholder="选择日期"
-                              v-model="ruleForm.endTime"
-                              value-format="yyyy-MM-dd"
+              <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.endTime" value-format="yyyy-MM-dd"
                               style="width: 100%;"></el-date-picker>
             </el-form-item>
           </el-col>
@@ -72,7 +68,7 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+          <el-button type="primary" @click="submitForm('ruleForm')">立即更新</el-button>
           <el-button @click="resetForm('ruleForm')">重置</el-button>
         </el-form-item>
       </el-form>
@@ -88,6 +84,7 @@ export default {
         wechatName: '',
         nickname: '',
         serverId: '',
+        oldDomain: '',
         startTime: '',
         endTime: '',
         isEnable: false,
@@ -96,38 +93,67 @@ export default {
       },
       servers: [],
       rules: {
-        wechatName: [
-          {required: true, message: '请输微信账号', trigger: 'blur'},
-          {min: 1, max: 24, message: '长度在 3 到 5 个字符', trigger: 'blur'}
+        wechatName: [{
+          required: true,
+          message: '请输微信账号',
+          trigger: 'blur'
+        },
+          {
+            min: 1,
+            max: 24,
+            message: '长度在 3 到 5 个字符',
+            trigger: 'blur'
+          }
         ],
-        nickname: [
-          {required: true, message: '请输入昵称', trigger: 'blur'},
-          {min: 1, max: 24, message: '长度在 3 到 5 个字符', trigger: 'blur'}
+        nickname: [{
+          required: true,
+          message: '请输入昵称',
+          trigger: 'blur'
+        },
+          {
+            min: 1,
+            max: 24,
+            message: '长度在 3 到 5 个字符',
+            trigger: 'blur'
+          }
         ],
-        startTime: [
-          {type: 'string', required: true, message: '请选择日期', trigger: 'change'}
-        ],
-        endTime: [
-          {type: 'string', required: true, message: '请选择时间', trigger: 'change'}
-        ]
+        startTime: [{
+          type: 'string',
+          required: true,
+          message: '请选择日期',
+          trigger: 'change'
+        }],
+        endTime: [{
+          type: 'string',
+          required: true,
+          message: '请选择时间',
+          trigger: 'change'
+        }]
       }
     };
   },
   created() {
     this.getServerList();
+    this.getUserByUid(this.$route.params.uid);
   },
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          const {data: res} = await this.$http.post('/api/v2/users/create', {
-            ...this.ruleForm
-          });
-          if (res.status === 200) {
-            await this.$router.push({name: 'users'});
-            window.sessionStorage.setItem("activePath", '/users');
-          } else {
-            this.$message.error("添加失败 !");
+          try {
+            const {
+              data: res
+            } = await this.$http.put(`/api/v2/users/${this.$route.params.uid}`, {
+              ...this.ruleForm
+            });
+            if (res.status === 200) {
+              await this.$router.push('/users');
+              window.sessionStorage.setItem("activePath", '/users');
+            } else {
+              this.$message.error("修改失败 !");
+            }
+          } catch (e) {
+            this.$message.error(e.toString());
           }
         } else {
           this.$message.error("验证失败 !")
@@ -139,16 +165,22 @@ export default {
       this.$refs[formName].resetFields();
     },
     async getServerList() {
-      await this.$http.get('/api/v2/servers',
-          {
-            params: this.queryInfo
-          }).then((response) => {
+      await this.$http.get('/api/v2/servers', {
+        params: this.queryInfo
+      }).then((response) => {
         if (response) {
           this.servers = response.data.data;
         }
       });
+    },
+    async getUserByUid(uid) {
+      const {data: res} = await this.$http.get(`/api/v2/users/${uid}`);
+      this.ruleForm = {
+        ...res,
+        serverId: res.server.nodeId,
+        oldDomain: res.server.domain
+      }
     }
   }
 }
 </script>
-

@@ -3,11 +3,11 @@ import VueRouter from 'vue-router'
 import Login from "@/components/Login";
 import Home from "@/components/Home";
 import Welcome from "@/components/Welcome";
-
 import Users from "@/components/user/Users";
 import Servers from "@/components/server/Servers";
 import CreateUser from "@/components/user/CreateUser";
 import CreateServer from "@/components/server/CreateServer";
+import EditUser from "@/components/user/EditUser";
 
 Vue.use(VueRouter)
 const routes = [
@@ -24,7 +24,7 @@ const routes = [
         name: "home",
         path: '/home',
         component: Home,
-        redirect: '/welcome',
+        redirect: '/users',
         children: [
             {
                 name: 'welcome',
@@ -40,6 +40,11 @@ const routes = [
                 name: 'create-user',
                 path: '/users/create',
                 component: CreateUser,
+            },
+            {
+                name: 'edit-user',
+                path: '/users/:uid/edit',
+                component: EditUser,
             },
             {
                 name: 'servers',

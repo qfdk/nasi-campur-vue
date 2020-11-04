@@ -57,7 +57,7 @@ export default {
           this.$message.error("登录失败")
         }
       } catch (e) {
-        console.log(e)
+        this.$message.error(e.toString())
       }
     }
   }

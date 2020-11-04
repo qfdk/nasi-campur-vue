@@ -28,7 +28,8 @@ import {
     Radio,
     RadioGroup,
     CheckboxGroup,
-    Option
+    Option,
+    Link
 } from "element-ui";
 
 Vue.use(Button)
@@ -60,4 +61,5 @@ Vue.use(Radio)
 Vue.use(RadioGroup)
 Vue.use(CheckboxGroup)
 Vue.use(Option)
+Vue.use(Link)
 Vue.prototype.$message = Message

@@ -20,7 +20,59 @@
           <el-button type="primary">添加服务器</el-button>
         </el-col>
       </el-row>
+      <el-table
+          :data="servers"
+          border
+          style="width: 100%">
+        <el-table-column
+            type="index"
+            label="#"
+        ></el-table-column>
+        <el-table-column
+            prop="appName"
+            label="节点名称"
+            width="180">
+        </el-table-column>
+        <el-table-column
+            prop="country"
+            label="国家">
+        </el-table-column>
+        <el-table-column
+            prop="location"
+            label="城市">
+        </el-table-column>
+        <el-table-column
+            prop="url"
+            label="API地址">
+          <template slot-scope="scope">
+            <el-link type="primary" :href="scope.row.url" target="_blank">{{ scope.row.url }}</el-link>
+          </template>
+        </el-table-column>
+        <el-table-column
+            prop="containersCount"
+            label="容器数量">
+        </el-table-column>
+        <el-table-column
+            prop="ip"
+            label="IP">
+        </el-table-column>
+        <el-table-column
+            label="操作">
+          <template slot-scope="scope">
+            <!--            <el-button size="mini" type="primary" icon="el-icon-edit" @click="editUser(scope.row._id)"></el-button>-->
+            <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteServer(scope.row)"></el-button>
+          </template>
+        </el-table-column>
+      </el-table>
 
+      <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="queryInfo.pageNum"
+          :page-size="queryInfo.pageSize"
+          layout="total, prev, pager, next"
+          :total="total">
+      </el-pagination>
     </el-card>
 
   </div>
@@ -30,7 +82,7 @@
 export default {
   data() {
     return {
-      users: [],
+      servers: [],
       total: 0,
       queryInfo: {
         keyword: '',
@@ -51,7 +103,7 @@ export default {
           .then(response => {
             if (response) {
               const res = response.data;
-              this.users = res.data;
+              this.servers = res.data;
               this.total = res.total;
             }
           }).catch((e) => {
@@ -65,7 +117,18 @@ export default {
     handleCurrentChange(newPage) {
       this.queryInfo.pageNum = newPage;
       this.getServerList();
-    }
+    },
+    async deleteServer(serverInfo) {
+      await this.$http.delete(`/api/v2/servers/${serverInfo._id}`)
+          .then(response => {
+            const res = response.data;
+            if (res.meta.status !== 200) {
+              return this.$message.error("删除失败!");
+            }
+            this.$message.success("删除成功!");
+          })
+      await this.getServerList();
+    },
   }
 }
 </script>

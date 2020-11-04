@@ -2,8 +2,8 @@ import axios from "axios";
 
 // 创建一个axios实例
 const instance = axios.create({
-    baseURL: "http://localhost:8080",
-    timeout: 300000
+    baseURL: "http://localhost:3000",
+    timeout: 30000
 });
 
 // 给实例添加一个setToken方法，用于登录后将最新token动态添加到header，同时将token保存在sessionStorage中
