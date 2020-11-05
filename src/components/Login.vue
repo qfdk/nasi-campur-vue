@@ -8,12 +8,12 @@
         <h4>超级后台登录</h4>
         <!-- 用户名-->
         <el-form-item prop="username">
-          <el-input v-model="loginForm.username" prefix-icon="icofont-user"></el-input>
+          <el-input v-model="loginForm.username" prefix-icon="el-icon-user-solid"></el-input>
         </el-form-item>
 
         <!-- 密码-->
         <el-form-item prop="password">
-          <el-input type="password" v-model="loginForm.password" prefix-icon="icofont-lock"></el-input>
+          <el-input type="password" v-model="loginForm.password" prefix-icon="el-icon-lock"></el-input>
         </el-form-item>
 
         <el-form-item class="btn">

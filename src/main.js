@@ -3,7 +3,6 @@ import App from './App.vue'
 import router from './router'
 import './plugins/element.js'
 import './assets/css/global.css'
-import './assets/icofont/icofont.min.css'
 import * as dayjs from 'dayjs'
 import Instance from "@/tools/httpRequest";
 

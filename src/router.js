@@ -1,13 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from "@/components/Login";
 import Home from "@/components/Home";
-import Welcome from "@/components/Welcome";
-import Users from "@/components/user/Users";
-import Servers from "@/components/server/Servers";
-import CreateUser from "@/components/user/CreateUser";
-import CreateServer from "@/components/server/CreateServer";
-import EditUser from "@/components/user/EditUser";
 
 Vue.use(VueRouter)
 const routes = [
@@ -18,7 +11,7 @@ const routes = [
     {
         name: 'login',
         path: '/login',
-        component: Login
+        component: () => import(/* webpackChunkName: "common" */ '@/components/Login')
     },
     {
         name: "home",
@@ -29,32 +22,33 @@ const routes = [
             {
                 name: 'welcome',
                 path: '/welcome',
-                component: Welcome
+                component: () => import(/* webpackChunkName: "common" */ '@/components/Login')
             },
             {
                 name: 'users',
                 path: '/users',
-                component: Users,
+                component: () => import(/* webpackChunkName: "common" */ '@/components/user/Users')
+
             },
             {
                 name: 'create-user',
                 path: '/users/create',
-                component: CreateUser,
+                component: () => import(/* webpackChunkName: "common" */ '@/components/user/CreateUser')
             },
             {
                 name: 'edit-user',
                 path: '/users/:uid/edit',
-                component: EditUser,
+                component: () => import(/* webpackChunkName: "common" */ '@/components/user/EditUser')
             },
             {
                 name: 'servers',
                 path: '/servers',
-                component: Servers
+                component: () => import(/* webpackChunkName: "common" */ '@/components/server/Servers')
             },
             {
                 name: 'create-server',
                 path: '/servers/create',
-                component: CreateServer
+                component: () => import(/* webpackChunkName: "common" */ '@/components/server/CreateServer')
             }
         ]
     }

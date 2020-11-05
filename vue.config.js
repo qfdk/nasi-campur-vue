@@ -1,6 +1,20 @@
 module.exports = {
-    devServer: {
-        open: true, //是否自动弹出浏览器页面
-        // proxy: 'http://localhost:3000',
+    publicPath: '/',
+    outputDir: 'dist',
+    assetsDir: 'static',
+    lintOnSave: process.env.NODE_ENV === 'development',
+    productionSourceMap: false,
+    chainWebpack(config) {
+        config
+            .when(process.env.NODE_ENV === 'production',
+                config => {
+                    config.set('externals', {
+                        'vue': 'Vue',
+                        'vue-router': 'VueRouter',
+                        'axios': 'axios'
+                    })
+                    config.optimization.runtimeChunk('single')
+                }
+            )
     }
 }
