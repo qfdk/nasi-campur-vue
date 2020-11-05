@@ -17,7 +17,9 @@
           </el-input>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary">添加服务器</el-button>
+          <router-link to="/servers/create">
+            <el-button type="primary" @click="createServer()">添加服务器</el-button>
+          </router-link>
         </el-col>
       </el-row>
       <el-table
@@ -117,6 +119,10 @@ export default {
     handleCurrentChange(newPage) {
       this.queryInfo.pageNum = newPage;
       this.getServerList();
+    },
+    createServer() {
+      this.$router.push({name: 'create-server'});
+      window.sessionStorage.setItem("activePath", '/servers/create');
     },
     async deleteServer(serverInfo) {
       await this.$http.delete(`/api/v2/servers/${serverInfo._id}`)

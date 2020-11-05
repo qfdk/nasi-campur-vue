@@ -10,7 +10,7 @@
       <div slot="header" class="clearfix">
         <span>用户列表</span>
       </div>
-      <el-row :gutter="20">
+      <el-row :gutter="10">
         <el-col :span="8">
           <el-input placeholder="请输入内容" v-model="queryInfo.keyword" clearable @clear="getUserList()">
             <el-button slot="append" icon="el-icon-search" @click="getUserList()"></el-button>
@@ -20,6 +20,7 @@
           <router-link to="/users/create">
             <el-button type="primary" @click="createUser()">添加用户</el-button>
           </router-link>
+          <el-button class="refresh" type="primary" @click="refresh()">刷新流量</el-button>
         </el-col>
       </el-row>
 
@@ -52,6 +53,12 @@
             label="结束时间">
           <template slot-scope="scope">
             {{ $dayjs(scope.row.endTime).format("YYYY-MM-DD") }}
+          </template>
+        </el-table-column>
+        <el-table-column
+            label="流量使用">
+          <template slot-scope="scope">
+            {{ toTraffic(scope.row.networkRx + scope.row.networkRx) }}
           </template>
         </el-table-column>
         <el-table-column
@@ -150,7 +157,7 @@ export default {
               return this.$message.error("修改失败!");
             }
           }).catch(e => {
-            this.$message.success(e);
+            this.$message.error(e.toString());
           });
     },
     async deleteUser(userInfo) {
@@ -171,6 +178,28 @@ export default {
     createUser() {
       this.$router.push({name: 'create-user'});
       window.sessionStorage.setItem("activePath", '/users/create');
+    },
+    toTraffic(value) {
+      if (value < 1000) {
+        return value.toFixed(2) + ' MB';
+      } else {
+        return (value / 1000).toFixed(2) + ' GB';
+      }
+    },
+    async refresh() {
+      await this.$http.get(`/api/v2/servers/refresh`)
+          .then(response => {
+            if (response) {
+              const res = response.data
+              if (res.meta.status === 200) {
+                this.$message.success("更新成功!");
+              }
+            } else {
+              return this.$message.error("修改失败!");
+            }
+          }).catch(e => {
+            this.$message.error(e.toString());
+          });
     }
   }
 }
@@ -179,6 +208,10 @@ export default {
 <style lang="less" scoped>
 .el-table {
   margin-top: 15px;
+}
+
+.refresh {
+  margin-left: 15px;
 }
 
 .el-pagination {
