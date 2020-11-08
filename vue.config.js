@@ -1,3 +1,10 @@
+const CompressionWebpackPlugin = require("compression-webpack-plugin");
+const zopfli = require("@gfx/zopfli");
+const BrotliPlugin = require("brotli-webpack-plugin");
+const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i;
+
+const isProd = ["production", "prod"].includes(process.env.NODE_ENV);
+
 const externals = {
     vue: "Vue",
     "vue-router": "VueRouter",
@@ -31,24 +38,44 @@ module.exports = {
     },
     productionSourceMap: false,
     lintOnSave: false,
-    publicPath: process.env.NODE_ENV === "production" ? "./" : "/",
+    publicPath: isProd ? "./" : "/",
     configureWebpack: config => {
-        if (process.env.NODE_ENV === "production") {
+        const plugins = [];
+        if (isProd) {
             // 为生产环境修改配置...
             //externals里的模块不打包
             Object.assign(config, {
                 externals: externals
             });
+            plugins.push(
+                new CompressionWebpackPlugin({
+                    algorithm(input, compressionOptions, callback) {
+                        return zopfli.gzip(input, compressionOptions, callback);
+                    },
+                    compressionOptions: {
+                        numiterations: 15
+                    },
+                    minRatio: 0.99,
+                    test: productionGzipExtensions
+                })
+            );
+            plugins.push(
+                new BrotliPlugin({
+                    test: productionGzipExtensions,
+                    minRatio: 0.99
+                })
+            );
         } else {
             // 为开发环境修改配置...
         }
+        config.plugins = [...config.plugins, ...plugins];
     },
     chainWebpack: config => {
         // 对vue-cli内部的 webpack 配置进行更细粒度的修改
         config.plugin("html").tap(args => {
             // console.log("config", config);
             // console.log("args", args);
-            if (process.env.NODE_ENV === "production") {
+            if (isProd) {
                 args[0].cdn = cdn.production;
             } else {
                 args[0].cdn = cdn.dev;
