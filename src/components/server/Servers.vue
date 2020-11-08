@@ -34,7 +34,7 @@
         <el-table-column
             prop="appName"
             label="节点名称"
-            width="180">
+            width="250">
         </el-table-column>
         <el-table-column
             prop="country"
@@ -53,7 +53,9 @@
         </el-table-column>
         <el-table-column
             prop="containersCount"
-            label="容器数量">
+            label="容器数量"
+            width="80"
+        >
         </el-table-column>
         <el-table-column
             prop="ip"

@@ -34,11 +34,15 @@
         ></el-table-column>
         <el-table-column
             prop="wechatName"
-            label="微信账号">
+            label="微信账号"
+            width="200"
+        >
         </el-table-column>
         <el-table-column
             prop="nickname"
-            label="昵称">
+            label="昵称"
+            width="200"
+        >
         </el-table-column>
         <el-table-column
             prop="server.country"
@@ -63,7 +67,9 @@
         </el-table-column>
         <el-table-column
             prop="containerStatus"
-            label="容器状态">
+            label="容器状态"
+            width="100"
+        >
           <template slot-scope="scope">
             <el-tag v-if="scope.row.containerStatus === 'running'" type="success">正在运行</el-tag>
             <el-tag v-if="scope.row.containerStatus === 'exited'" type="danger">已停止</el-tag>
@@ -71,10 +77,13 @@
         </el-table-column>
         <el-table-column
             prop="containerPort"
-            label="容器端口">
+            label="容器端口"
+            width="80"
+        >
         </el-table-column>
         <el-table-column
-            label="支付">
+            label="支付"
+            width="80">
           <template slot-scope="scope">
             <el-switch
                 v-model="scope.row.isEnable"
