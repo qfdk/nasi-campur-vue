@@ -11,7 +11,6 @@
         <el-menu
             text-color="#fff"
             background-color="#3b3e4e"
-            :unique-opened="true"
             :collapse="isCollapsed"
             :collapse-transition="false"
             :router="true"
