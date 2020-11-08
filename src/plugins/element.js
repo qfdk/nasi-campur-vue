@@ -3,33 +3,38 @@ import Vue from 'vue'
 import 'element-ui/lib/theme-chalk/index.css'
 
 import {
-    Button, Form, FormItem, Input, Message,
-    Header,
-    Container,
     Aside,
-    Main,
-    Menu,
-    Submenu,
-    MenuItemGroup,
-    MenuItem,
-    Switch,
     Breadcrumb,
     BreadcrumbItem,
+    Button,
     Card,
-    Row,
-    Col,
-    Table,
-    TableColumn,
-    Tag,
-    Pagination,
-    Select,
-    DatePicker,
     Checkbox,
+    CheckboxGroup,
+    Col,
+    Container,
+    DatePicker,
+    Form,
+    FormItem,
+    Header,
+    Input,
+    Link,
+    Main,
+    Menu,
+    MenuItem,
+    MenuItemGroup,
+    Message,
+    MessageBox,
+    Option,
+    Pagination,
     Radio,
     RadioGroup,
-    CheckboxGroup,
-    Option,
-    Link
+    Row,
+    Select,
+    Submenu,
+    Switch,
+    Table,
+    TableColumn,
+    Tag
 } from "element-ui";
 
 Vue.use(Button)
@@ -63,3 +68,4 @@ Vue.use(CheckboxGroup)
 Vue.use(Option)
 Vue.use(Link)
 Vue.prototype.$message = Message
+Vue.prototype.$confirm = MessageBox.confirm

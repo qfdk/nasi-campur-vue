@@ -34,15 +34,15 @@
           <el-submenu index="2">
             <template slot="title">
               <i class="el-icon-s-tools"></i>
-              <span slot="title">服务器管理</span>
+              <span slot="title">节点管理</span>
             </template>
             <el-menu-item index="servers" :route="{path:'/servers'}">
               <i class="el-icon-menu"></i>
-              <span>服务器列表</span>
+              <span>节点列表</span>
             </el-menu-item>
             <el-menu-item index="create-server" :route="{path:'/servers/create'}">
               <i class="el-icon-menu"></i>
-              <span>添加新服务器</span>
+              <span>添加新节点</span>
             </el-menu-item>
           </el-submenu>
           <el-menu-item index="#" @click="toggleButton">

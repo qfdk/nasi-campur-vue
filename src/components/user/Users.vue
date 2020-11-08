@@ -161,15 +161,30 @@ export default {
           });
     },
     async deleteUser(userInfo) {
-      await this.$http.delete(`/api/v2/users/${userInfo._id}`)
-          .then(response => {
-            const res = response.data;
-            if (res.meta.status !== 200) {
-              return this.$message.error("删除失败!");
-            }
-            this.$message.success("删除成功!");
-          })
-      await this.getUserList();
+      this.$confirm(`此操作将永久删除该用户 ${userInfo.wechatName}, 是否继续？`, '提示', {
+        type: 'warning',
+        distinguishCancelAndClose: true,
+        confirmButtonText: '删除',
+        cancelButtonText: '取消'
+      }).then(async () => {
+        await this.$http.delete(`/api/v2/users/${userInfo._id}`)
+            .then(async response => {
+              const res = response.data;
+              if (res.meta.status !== 200) {
+                return this.$message.error("删除失败!");
+              }
+              await this.getUserList();
+              this.$message.success("删除成功!");
+            })
+      }).catch(action => {
+        this.$message({
+          type: 'info',
+          message: action === 'cancel'
+              ? '放弃删除'
+              : '停留在当前页面'
+        })
+      });
+
     },
     editUser(id) {
       this.$router.push(`/users/${id}/edit`);
@@ -187,15 +202,15 @@ export default {
       }
     },
     async refresh() {
-      await this.$http.get(`/api/v2/servers/refresh`)
+      await this.$http.get(`/api/v2/users/refresh`)
           .then(response => {
             if (response) {
               const res = response.data
               if (res.meta.status === 200) {
-                this.$message.success("更新成功!");
+                this.$message.success("手动请求刷新流量成功!");
               }
             } else {
-              return this.$message.error("修改失败!");
+              return this.$message.error("刷新流量失败!");
             }
           }).catch(e => {
             this.$message.error(e.toString());

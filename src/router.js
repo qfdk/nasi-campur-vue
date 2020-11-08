@@ -48,7 +48,12 @@ const routes = [
                 name: 'create-server',
                 path: '/servers/create',
                 component: () => import(/* webpackChunkName: "common" */ '@/components/server/CreateServer')
-            }
+            },
+            {
+                name: 'edit-server',
+                path: '/servers/:uid/edit',
+                component: () => import(/* webpackChunkName: "common" */ '@/components/server/EditServer')
+            },
         ]
     }
     // {
