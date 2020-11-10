@@ -3,6 +3,7 @@ import axios from "axios";
 // 创建一个axios实例
 const instance = axios.create({
     baseURL: process.env.API_URL,
+    headers: {'Cache-Control': 'no-cache'},
     timeout: 30000
 });
 
