@@ -10,16 +10,18 @@
       <div slot="header" class="clearfix">
         <span>节点列表</span>
       </div>
-      <el-row :gutter="20">
+      <el-row :gutter="10">
         <el-col :span="8">
           <el-input placeholder="请输入内容" v-model="queryInfo.keyword" clearable @clear="getServerList()">
             <el-button slot="append" icon="el-icon-search" @click="getServerList()"></el-button>
           </el-input>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="2" style="padding-left: 0px;">
           <router-link to="/servers/create">
             <el-button type="primary" @click="createServer()">添加节点</el-button>
           </router-link>
+        </el-col>
+        <el-col :span="2">
           <el-button class="refresh" type="primary" @click="refresh()">刷新节点</el-button>
         </el-col>
       </el-row>

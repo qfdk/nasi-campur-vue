@@ -16,10 +16,12 @@
             <el-button slot="append" icon="el-icon-search" @click="getUserList()"></el-button>
           </el-input>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="2" style="padding-left: 0px;">
           <router-link to="/users/create">
             <el-button type="primary" @click="createUser()">添加用户</el-button>
           </router-link>
+        </el-col>
+        <el-col :span="2">
           <el-button class="refresh" type="primary" @click="refresh()">刷新流量</el-button>
         </el-col>
       </el-row>
