@@ -35,7 +35,11 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     hidden: true
   },
-
+  {
+    path: '/speed',
+    component: () => import('@/views/speed/index'),
+    hidden: true
+  },
   {
     path: '/404',
     component: () => import('@/views/404'),
@@ -140,7 +144,9 @@ export function resetRouter() {
 
 // 路由守卫
 router.beforeEach((to, from, next) => {
+  if (to.path === '/speed') return next()
   if (to.path === '/login') return next()
+
   const token = window.sessionStorage.getItem('accessToken')
   if (!token) {
     return next('/login')

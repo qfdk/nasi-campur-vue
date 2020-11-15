@@ -46,7 +46,7 @@
         prop="endTime"
         label="结束时间"
       >
-        <template slot-scope="scope" value-format="timestamp">
+        <template slot-scope="scope">
           {{ $dayjs(scope.row.endTime).format('YYYY-MM-DD') }}
         </template>
       </el-table-column>
