@@ -67,11 +67,10 @@ export default {
     return {
       listLoading: false,
       servers: [
-        'http://us.qfdk.me:3001/info',
-        'http://sg.qfdk.me:3001/info',
-        'http://fr3.qfdk.me:3001/info',
-        'http://jp.qfdk.me:3001/info',
-        'http://cn2.qfdk.me:3001/info'
+        'https://us.qfdk.me/info',
+        'https://sg.qfdk.me/info',
+        'https://fr3.qfdk.me/info',
+        'https://jp.qfdk.me/info'
       ],
       tableData: []
     }
