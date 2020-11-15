@@ -1,4 +1,6 @@
-# nasi-campur-vue
+# nasi-campur-vue-v1
+
+第一个 vue 的版本,需要配合 api 进行
 
 ## Project setup
 ```
@@ -19,6 +21,3 @@ yarn build
 ```
 yarn lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
