@@ -9,16 +9,15 @@
       v-loading="listLoading"
       :data="tableData"
       border
+      fit
+      highlight-current-row
       element-loading-text="Loading"
+      size="mini"
       style="width: 100%"
     >
       <el-table-column
         label="#"
         type="index"
-      />
-      <el-table-column
-        label="节点名称"
-        prop="appName"
       />
       <el-table-column
         label="节点国家"
@@ -30,6 +29,7 @@
       />
       <el-table-column
         label="状态"
+        width="70px"
       >
         <template slot-scope="scope">
           {{ scope.row.delta }} ms
