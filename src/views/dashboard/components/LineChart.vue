@@ -4,8 +4,9 @@
 
 <script>
 import echarts from 'echarts'
-require('echarts/theme/macarons') // echarts theme
 import resize from './mixins/resize'
+
+require('echarts/theme/macarons') // echarts theme
 
 export default {
   mixins: [resize],
@@ -64,7 +65,7 @@ export default {
     setOptions({ expectedData, actualData } = {}) {
       this.chart.setOption({
         xAxis: {
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          data: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期天'],
           boundaryGap: false,
           axisTick: {
             show: false
@@ -72,7 +73,7 @@ export default {
         },
         grid: {
           left: 10,
-          right: 10,
+          right: 20,
           bottom: 20,
           top: 30,
           containLabel: true
