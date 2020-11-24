@@ -5,17 +5,6 @@
       <el-row style="background:#fff;padding:20px 10px 0;margin-bottom:32px;">
         <line-chart :chart-data="lineChartData" />
       </el-row>
-      <!--    <el-row :gutter="32">-->
-      <!--      <el-col :lg="8" :sm="24" :xs="24">-->
-      <!--        <p>todo</p>-->
-      <!--      </el-col>-->
-      <!--      <el-col :lg="8" :sm="24" :xs="24">-->
-      <!--        <p>todo</p>-->
-      <!--      </el-col>-->
-      <!--      <el-col :lg="8" :sm="24" :xs="24">-->
-      <!--        <p>todo</p>-->
-      <!--      </el-col>-->
-      <!--    </el-row>-->
     </div>
   </div>
 </template>

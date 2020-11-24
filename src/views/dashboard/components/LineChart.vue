@@ -91,44 +91,29 @@ export default {
           }
         },
         legend: {
-          data: ['expected', 'actual']
+          data: ['数量']
         },
-        series: [{
-          name: 'expected', itemStyle: {
-            normal: {
-              color: '#FF005A',
-              lineStyle: {
-                color: '#FF005A',
-                width: 2
-              }
-            }
-          },
-          smooth: true,
-          type: 'line',
-          data: expectedData,
-          animationDuration: 2800,
-          animationEasing: 'cubicInOut'
-        },
-        {
-          name: 'actual',
-          smooth: true,
-          type: 'line',
-          itemStyle: {
-            normal: {
-              color: '#3888fa',
-              lineStyle: {
+        series: [
+          {
+            name: '数量',
+            smooth: true,
+            type: 'line',
+            itemStyle: {
+              normal: {
                 color: '#3888fa',
-                width: 2
-              },
-              areaStyle: {
-                color: '#f3f8ff'
+                lineStyle: {
+                  color: '#3888fa',
+                  width: 2
+                },
+                areaStyle: {
+                  color: '#f3f8ff'
+                }
               }
-            }
-          },
-          data: actualData,
-          animationDuration: 2800,
-          animationEasing: 'quadraticOut'
-        }]
+            },
+            data: actualData,
+            animationDuration: 2800,
+            animationEasing: 'quadraticOut'
+          }]
       })
     }
   }
