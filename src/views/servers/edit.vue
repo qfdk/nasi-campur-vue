@@ -81,8 +81,8 @@ export default {
           ...this.ruleForm
         })
         if (res.status === 200) {
-          await this.$router.push('/servers')
-          window.sessionStorage.setItem('activePath', '/servers')
+          await this.$router.push({ name: 'list-server' })
+          window.sessionStorage.setItem('activePath', '/servers/list')
         } else {
           this.$message.error('修改失败 !')
         }

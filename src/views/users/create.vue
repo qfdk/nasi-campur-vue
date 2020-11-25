@@ -33,10 +33,10 @@
           <el-form-item prop="startTime">
             <el-date-picker
               v-model="ruleForm.startTime"
-              type="date"
               placeholder="选择日期"
-              value-format="yyyy-MM-dd"
               style="width: 100%;"
+              type="date"
+              value-format="yyyy-MM-dd"
             />
           </el-form-item>
         </el-col>
@@ -47,10 +47,10 @@
           <el-form-item prop="endTime">
             <el-date-picker
               v-model="ruleForm.endTime"
-              type="date"
               placeholder="选择日期"
-              value-format="yyyy-MM-dd"
               style="width: 100%;"
+              type="date"
+              value-format="yyyy-MM-dd"
             />
           </el-form-item>
         </el-col>
@@ -121,8 +121,8 @@ export default {
             ...this.ruleForm
           })
           if (res.status === 200) {
-            await this.$router.push({ name: 'users' })
-            window.sessionStorage.setItem('activePath', '/users')
+            await this.$router.push({ name: 'list-user' })
+            window.sessionStorage.setItem('activePath', '/users/list')
           } else {
             this.$message.error('添加失败 !')
           }
