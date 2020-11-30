@@ -14,7 +14,7 @@
       </div>
     </el-col>
     <el-col :lg="6" :sm="12" :xs="12" class="card-panel-col">
-      <div class="card-panel" @click="handleSetLineChartData('purchases')">
+      <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
         <div class="card-panel-icon-wrapper icon-money">
           <svg-icon class-name="card-panel-icon" icon-class="wechat" />
         </div>
