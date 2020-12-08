@@ -3,21 +3,21 @@ import axios from 'axios'
 // 创建一个axios实例
 const instance = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
-  headers: { 'Cache-Control': 'no-cache' },
+  headers: {'Cache-Control': 'no-cache'},
   timeout: 30000
 })
 
-// 给实例添加一个setToken方法，用于登录后将最新token动态添加到header，同时将token保存在sessionStorage中
+// 给实例添加一个setToken方法，用于登录后将最新token动态添加到header，同时将token保存在localStorage中
 instance.setToken = token => {
   console.log('设置新 token')
   instance.defaults.headers.Authorization = 'Bearer ' + token
-  window.sessionStorage.setItem('accessToken', token)
+  window.localStorage.setItem('accessToken', token)
 }
 
 function refreshToken() {
   // instance是当前request.js中已创建的axios实例
   console.log('请求刷新 token')
-  return instance.post('/token', { token: window.sessionStorage.getItem('refreshToken') }).then(res => res)
+  return instance.post('/token', {token: window.localStorage.getItem('refreshToken')}).then(res => res)
 }
 
 // 是否正在刷新的标记
@@ -36,7 +36,7 @@ instance.interceptors.response.use(
       if (!isRefreshing) {
         isRefreshing = true
         return refreshToken().then(res => {
-          const { accessToken } = res.data
+          const {accessToken} = res.data
           console.log('获取 token 成功')
           instance.setToken(accessToken)
           config.headers.Authorization = 'Bearer ' + accessToken
@@ -71,9 +71,9 @@ instance.interceptors.response.use(
 )
 
 instance.interceptors.request.use(config => {
-  config.headers.Authorization = 'Bearer ' + window.sessionStorage.getItem('accessToken')
+  config.headers.Authorization = 'Bearer ' + window.localStorage.getItem('accessToken')
   return config
-}, function(error) {
+}, function (error) {
   return Promise.reject(error)
 })
 
