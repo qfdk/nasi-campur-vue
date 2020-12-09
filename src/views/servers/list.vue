@@ -122,7 +122,7 @@ export default {
     },
     createServer() {
       this.$router.push({ name: 'create-server' })
-      window.sessionStorage.setItem('activePath', '/servers/create')
+      window.localStorage.setItem('activePath', '/servers/create')
     },
     async deleteServer(serverInfo) {
       this.$confirm(`此操作将永久删除该节点 ${serverInfo.appName}, 是否继续？`, '提示', {
@@ -151,7 +151,7 @@ export default {
     },
     async editServer(nodeId) {
       await this.$router.push(`/servers/${nodeId}/edit`)
-      window.sessionStorage.removeItem('activePath')
+      window.localStorage.removeItem('activePath')
     },
     async refresh() {
       await this.$http.get(`/api/v2/servers/refresh`)

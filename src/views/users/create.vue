@@ -122,7 +122,7 @@ export default {
           })
           if (res.status === 200) {
             await this.$router.push({ name: 'list-user' })
-            window.sessionStorage.setItem('activePath', '/users/list')
+            window.localStorage.setItem('activePath', '/users/list')
           } else {
             this.$message.error('添加失败 !')
           }

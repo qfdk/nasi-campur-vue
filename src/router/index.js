@@ -147,7 +147,7 @@ router.beforeEach((to, from, next) => {
   if (to.path === '/speed') return next()
   if (to.path === '/login') return next()
 
-  const token = window.sessionStorage.getItem('accessToken')
+  const token = window.localStorage.getItem('accessToken')
   if (!token) {
     return next('/login')
   }

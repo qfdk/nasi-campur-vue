@@ -100,8 +100,8 @@ export default {
         })
         if (res) {
           this.$message.success('登录成功')
-          window.sessionStorage.setItem('accessToken', res.data.accessToken)
-          window.sessionStorage.setItem('refreshToken', res.data.refreshToken)
+          window.localStorage.setItem('accessToken', res.data.accessToken)
+          window.localStorage.setItem('refreshToken', res.data.refreshToken)
           await this.$router.push('dashboard')
         } else {
           this.$message.error('登录失败')

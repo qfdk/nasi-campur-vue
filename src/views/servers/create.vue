@@ -79,7 +79,7 @@ export default {
           })
           if (res.meta.status === 200) {
             await this.$router.push({ name: 'list-server' })
-            window.sessionStorage.setItem('activePath', '/servers/list')
+            window.localStorage.setItem('activePath', '/servers/list')
           } else {
             this.$message.error('添加失败 !')
           }
