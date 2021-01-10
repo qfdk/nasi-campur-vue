@@ -2,15 +2,15 @@
   <div class="app-container">
     <el-row :gutter="10">
       <el-col :md="8">
-        <el-input v-model="queryInfo.keyword" placeholder="请输入内容" clearable @clear="getUserList()">
-          <el-button slot="append" icon="el-icon-search" @click="getUserList()" />
+        <el-input v-model="queryInfo.keyword" clearable placeholder="请输入内容" @clear="getUserList()">
+          <el-button slot="append" icon="el-icon-search" @click="getUserList()"/>
         </el-input>
       </el-col>
       <el-col :md="8">
         <router-link to="/users/create">
           <el-button type="primary" @click="createUser()">添加用户</el-button>
         </router-link>
-        <el-button style="margin-left: 5px" class="refresh" type="primary" @click="refresh()">刷新流量</el-button>
+        <el-button class="refresh" style="margin-left: 5px" type="primary" @click="refresh()">刷新流量</el-button>
       </el-col>
     </el-row>
     <el-table
@@ -23,28 +23,28 @@
       style="margin-top: 15px"
     >
       <el-table-column
-        type="index"
         label="#"
+        type="index"
       />
       <el-table-column
-        prop="wechatName"
         label="微信账号"
+        prop="wechatName"
       />
       <el-table-column
-        prop="nickname"
         label="昵称"
+        prop="nickname"
       />
       <el-table-column
-        prop="server.country"
         label="国家"
+        prop="server.country"
       />
       <el-table-column
-        prop="server.location"
         label="城市"
+        prop="server.location"
       />
       <el-table-column
-        prop="endTime"
         label="结束时间"
+        prop="endTime"
       >
         <template slot-scope="scope">
           {{ $dayjs(scope.row.endTime).format('YYYY-MM-DD') }}
@@ -58,8 +58,8 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="containerStatus"
         label="容器状态"
+        prop="containerStatus"
       >
         <template slot-scope="scope">
           <el-tag v-if="scope.row.containerStatus === 'running'" type="success">正在运行</el-tag>
@@ -67,8 +67,8 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="containerPort"
         label="容器端口"
+        prop="containerPort"
       />
       <el-table-column
         label="支付"
@@ -86,18 +86,18 @@
         label="操作"
       >
         <template slot-scope="scope">
-          <el-button size="mini" type="primary" icon="el-icon-edit" @click="editUser(scope.row._id)" />
-          <el-button size="mini" type="danger" icon="el-icon-delete" @click="deleteUser(scope.row)" />
+          <el-button icon="el-icon-edit" size="mini" type="primary" @click="editUser(scope.row._id)"/>
+          <el-button icon="el-icon-delete" size="mini" type="danger" @click="deleteUser(scope.row)"/>
         </template>
       </el-table-column>
     </el-table>
 
     <el-pagination
       :current-page="queryInfo.pageNum"
-      :page-sizes="[10, 20, 30, 40]"
       :page-size="queryInfo.pageSize"
-      layout="total, sizes, prev, pager, next"
+      :page-sizes="[10, 20, 30, 40]"
       :total="total"
+      layout="total, sizes, prev, pager, next"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     />
@@ -105,6 +105,8 @@
 </template>
 
 <script>
+import {Loading} from "element-ui";
+
 export default {
   data() {
     return {
@@ -124,7 +126,7 @@ export default {
   methods: {
     async getUserList() {
       this.listLoading = true
-      const { data: res } = await this.$http.get('/api/v2/users',
+      const {data: res} = await this.$http.get('/api/v2/users',
         {
           params: this.queryInfo
         })
@@ -163,14 +165,17 @@ export default {
         distinguishCancelAndClose: true,
         confirmButtonText: '删除',
         cancelButtonText: '取消'
-      }).then(async() => {
+      }).then(async () => {
+        const instanceLoading = Loading.service(undefined);
         await this.$http.delete(`/api/v2/users/${userInfo._id}`)
           .then(async response => {
             const res = response.data
             if (res.meta.status !== 200) {
+              instanceLoading.close();
               return this.$message.error('删除失败!')
             }
             await this.getUserList()
+            instanceLoading.close();
             this.$message.success('删除成功!')
           })
       }).catch(action => {
@@ -187,7 +192,7 @@ export default {
       window.sessionStorage.removeItem('activePath')
     },
     createUser() {
-      this.$router.push({ name: 'create-user' })
+      this.$router.push({name: 'create-user'})
       window.sessionStorage.setItem('activePath', '/users/create')
     },
     toTraffic(value) {
