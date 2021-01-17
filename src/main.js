@@ -12,6 +12,7 @@ import router from './router'
 import '@/icons' // icon
 import axios from '@/utils/request'
 import * as dayjs from 'dayjs'
+import FastClick from 'fastclick'
 
 /**
  * If you don't want to use mock-server
@@ -25,6 +26,20 @@ import * as dayjs from 'dayjs'
 if (process.env.NODE_ENV === 'production') {
 
 }
+
+//FastClick的ios点击穿透解决方案
+FastClick.prototype.focus = function (targetElement) {
+  let length;
+  if (targetElement.setSelectionRange && targetElement.type.indexOf('date') !== 0 && targetElement.type !== 'time' && targetElement.type !== 'month') {
+    length = targetElement.value.length;
+    targetElement.focus();
+    targetElement.setSelectionRange(length, length);
+  } else {
+    targetElement.focus();
+  }
+}
+
+FastClick.attach(document.body);
 Vue.use(ElementUI)
 
 Vue.config.productionTip = false
