@@ -9,9 +9,9 @@
       v-loading="listLoading"
       :data="tableData"
       border
+      element-loading-text="Loading"
       fit
       highlight-current-row
-      element-loading-text="Loading"
       size="mini"
       style="width: 100%"
     >
@@ -41,21 +41,21 @@
 </template>
 <script>
 const getURL = (URL) => {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     const req = new XMLHttpRequest()
     const date1 = new Date()
     req.open('GET', URL, true)
     req.responseType = 'json'
     req.setRequestHeader('Accept', 'application/json')
-    req.onload = function() {
+    req.onload = function () {
       if (req.status === 200) {
         const date2 = new Date()
-        resolve({ ...req.response, delta: date2 - date1 })
+        resolve({...req.response, delta: date2 - date1})
       } else {
         reject(new Error(req.statusText))
       }
     }
-    req.onerror = function() {
+    req.onerror = function () {
       reject(new Error(req.statusText))
     }
     req.send()
@@ -67,10 +67,9 @@ export default {
     return {
       listLoading: false,
       servers: [
-        'https://us.qfdk.me/info',
         'https://sg.qfdk.me/info',
-        'https://fr3.qfdk.me/info',
-        'https://jp.qfdk.me/info'
+        'https://jp.qfdk.me/info',
+        'https://us.qfdk.me/info',
       ],
       tableData: []
     }
@@ -83,11 +82,11 @@ export default {
         tables.push(getURL(url))
       }
       const that = this
-      Promise.all(tables).then(function(results) {
+      Promise.all(tables).then(function (results) {
         that.tableData = results.sort((a, b) => {
           return a.delta - b.delta
         })
-      }).catch(function(err) {
+      }).catch(function (err) {
         console.log(err)
       }).finally(() => {
         this.listLoading = false
