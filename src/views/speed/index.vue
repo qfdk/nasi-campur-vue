@@ -77,8 +77,8 @@ export default {
     async fetchData() {
       this.listLoading = true
       const tables = []
-      for (const url of this.servers) {
-        tables.push(getURL(url))
+      for (const server of this.servers) {
+        tables.push(getURL(server.url))
       }
       const that = this
       Promise.all(tables).then(function (results) {
