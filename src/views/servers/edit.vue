@@ -3,45 +3,49 @@
     <el-form ref="ruleForm" :model="ruleForm" label-width="100px">
       <el-form-item label="api 地址" prop="url">
         <el-col :md="8" :xs="24">
-          <el-input v-model="ruleForm.url" clearable />
+          <el-input v-model="ruleForm.url" clearable/>
         </el-col>
       </el-form-item>
 
       <el-form-item label="节点名称" prop="appName">
         <el-col :md="8" :xs="24">
-          <el-input v-model="ruleForm.appName" clearable />
+          <el-input v-model="ruleForm.appName" clearable/>
         </el-col>
       </el-form-item>
 
       <el-form-item label="节点国家" prop="country">
         <el-col :md="8" :xs="24">
-          <el-input v-model="ruleForm.country" clearable />
+          <el-input v-model="ruleForm.country" clearable/>
         </el-col>
       </el-form-item>
       <el-form-item label="节点位置" prop="location">
         <el-col :md="8" :xs="24">
-          <el-input v-model="ruleForm.location" clearable />
+          <el-input v-model="ruleForm.location" clearable/>
         </el-col>
       </el-form-item>
       <el-form-item label="节点ip：" prop="ip">
         <el-col :md="8" :xs="24">
-          <el-input v-model="ruleForm.ip" clearable />
+          <el-input v-model="ruleForm.ip" clearable/>
         </el-col>
       </el-form-item>
       <el-form-item label="域名：" prop="domain">
         <el-col :md="8" :xs="24">
-          <el-input v-model="ruleForm.domain" clearable />
+          <el-input v-model="ruleForm.domain" clearable/>
         </el-col>
       </el-form-item>
       <el-form-item label="总控地址：" prop="bigBoss">
         <el-col :md="8" :xs="24">
-          <el-input v-model="ruleForm.bigBoss" clearable />
+          <el-input v-model="ruleForm.bigBoss" clearable/>
         </el-col>
       </el-form-item>
       <el-form-item label="备注：" prop="description">
         <el-col :md="8" :xs="24">
-          <el-input v-model="ruleForm.description" clearable />
+          <el-input v-model="ruleForm.description" clearable/>
         </el-col>
+      </el-form-item>
+
+      <el-form-item label="公共显示" prop="isPublic">
+        <el-switch v-model="ruleForm.isPublic"/>
       </el-form-item>
 
       <el-form-item>
@@ -65,7 +69,8 @@ export default {
         domain: '',
         bigBoss: '',
         description: '',
-        nodeId: ''
+        nodeId: '',
+        isPublic: false
       }
     }
   },
@@ -81,7 +86,7 @@ export default {
           ...this.ruleForm
         })
         if (res.status === 200) {
-          await this.$router.push({ name: 'list-server' })
+          await this.$router.push({name: 'list-server'})
           window.localStorage.setItem('activePath', '/servers/list')
         } else {
           this.$message.error('修改失败 !')
@@ -94,7 +99,7 @@ export default {
       this.$refs[formName].resetFields()
     },
     async getServerByUid(uid) {
-      const { data: res } = await this.$http.get(`/api/v2/servers/${uid}`)
+      const {data: res} = await this.$http.get(`/api/v2/servers/${uid}`)
       this.ruleForm = {
         ...res
       }
