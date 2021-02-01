@@ -17,7 +17,7 @@ instance.setToken = token => {
 function refreshToken() {
   // instance是当前request.js中已创建的axios实例
   console.log('请求刷新 token')
-  return instance.post('/token', {token: window.localStorage.getItem('refreshToken')}).then(res => res)
+  return instance.post('/token', {refreshToken: window.localStorage.getItem('refreshToken')}).then(res => res)
 }
 
 // 是否正在刷新的标记
@@ -46,9 +46,10 @@ instance.interceptors.response.use(
           retryRequests.forEach(cb => cb(accessToken))
           retryRequests = []
           return instance(config)
-        }).catch(res => {
-          console.error('刷新 token 失败', res)
-          window.location.href = '/'
+        }).catch(err => {
+          console.error('刷新 token 失败');
+          window.localStorage.clear();
+          window.location.href = '/login';
         }).finally(() => {
           // 保证下次刷新能够正常进入
           isRefreshing = false

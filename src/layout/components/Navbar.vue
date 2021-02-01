@@ -1,13 +1,13 @@
 <template>
   <div class="navbar">
-    <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
+    <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar"/>
 
-    <breadcrumb class="breadcrumb-container" />
+    <breadcrumb class="breadcrumb-container"/>
 
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
-          <i class="el-icon-caret-bottom" /> 菜单
+          <i class="el-icon-caret-bottom"/> 菜单
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
@@ -25,8 +25,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { resetRouter } from '@/router'
+import {mapGetters} from 'vuex'
+import {resetRouter} from '@/router'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 
@@ -44,10 +44,19 @@ export default {
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
-    async logout() {
-      window.localStorage.clear()
-      resetRouter()
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+    logout() {
+
+      this.$http.post('/token/logout', {
+        refreshToken: window.localStorage.getItem('refreshToken')
+      }).then((res) => {
+        console.log(res)
+        window.localStorage.clear();
+        resetRouter();
+        this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      }).catch((e) => {
+        console.log(e)
+      });
+
     }
   }
 }

@@ -66,13 +66,12 @@ export default {
   data() {
     return {
       listLoading: false,
-      servers: [
-        'https://sg.qfdk.me/info',
-        'https://jp.qfdk.me/info',
-        'https://us.qfdk.me/info',
-      ],
+      servers: [],
       tableData: []
     }
+  },
+  created() {
+    this.getServerList();
   },
   methods: {
     async fetchData() {
@@ -91,7 +90,16 @@ export default {
       }).finally(() => {
         this.listLoading = false
       })
-    }
+    },
+    async getServerList() {
+      try {
+        const response = await this.$http.get('/api/servers');
+        this.servers = response.data;
+        this.tableData = response.data;
+      } catch (e) {
+        this.$message.error("获取服务器列表失败！");
+      }
+    },
   }
 }
 </script>
