@@ -29,7 +29,13 @@
       <el-table-column
         label="微信账号"
         prop="wechatName"
-      />
+      >
+        <template slot-scope="scope">
+          <el-link :href="'/users/findUserByWechatName?wechatName='+scope.row.wechatName" type="primary">
+            {{ scope.row.wechatName }}
+          </el-link>
+        </template>
+      </el-table-column>
       <el-table-column
         label="昵称"
         prop="nickname"
@@ -62,8 +68,41 @@
         prop="containerStatus"
       >
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.containerStatus === 'running'" type="success">正在运行</el-tag>
-          <el-tag v-if="scope.row.containerStatus === 'exited'" type="danger">已停止</el-tag>
+          <!--          <el-tag v-if="scope.row.containerStatus === 'running'" type="success">正在运行</el-tag>-->
+          <!--          <el-tag v-if="scope.row.containerStatus === 'exited'" type="danger">已停止</el-tag>-->
+
+          <el-dropdown v-if="scope.row.containerStatus === 'running'">
+            <el-button size="mini" type="success">
+              <i class="el-icon-caret-right"></i> 正在运行
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item @click.native="doAction('stop',scope.row)">
+                <el-button size="mini" type="text">
+                  <i class="el-icon-video-pause"></i> 暂停
+                </el-button>
+              </el-dropdown-item>
+              <el-dropdown-item @click.native="doAction('recreate',scope.row)">
+                <i class="el-icon-refresh"></i> 重建二维码
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+
+          <el-dropdown v-if="scope.row.containerStatus === 'exited'">
+            <el-button size="mini" type="danger">
+              <i class="el-icon-video-pause"></i> 已停止
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item @click.native="doAction('start',scope.row)">
+                <el-button size="mini" type="text">
+                  <i class="el-icon-caret-right"></i> 开始
+                </el-button>
+              </el-dropdown-item>
+<!--              <el-dropdown-item @click.native="doAction('recreate',scope.row)">-->
+<!--                <i class="el-icon-refresh"></i> 重建二维码-->
+<!--              </el-dropdown-item>-->
+            </el-dropdown-menu>
+          </el-dropdown>
+
         </template>
       </el-table-column>
       <el-table-column
@@ -194,6 +233,21 @@ export default {
     createUser() {
       this.$router.push({name: 'create-user'})
       window.sessionStorage.setItem('activePath', '/users/create')
+    },
+    async doAction(actionName, user) {
+      const instanceLoading = Loading.service(undefined);
+
+      await this.$http.post(`/api/v2/container/${actionName}`,
+        {
+          ...user
+        }).then(async response => {
+        const res = response.data
+        await this.getUserList()
+        instanceLoading.close();
+        if (res.meta.status === 200) {
+          this.$message.success('操作成功!')
+        }
+      });
     },
     toTraffic(value) {
       if (value < 1000) {
