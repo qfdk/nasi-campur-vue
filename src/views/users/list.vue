@@ -68,38 +68,28 @@
         prop="containerStatus"
       >
         <template slot-scope="scope">
-          <!--          <el-tag v-if="scope.row.containerStatus === 'running'" type="success">正在运行</el-tag>-->
-          <!--          <el-tag v-if="scope.row.containerStatus === 'exited'" type="danger">已停止</el-tag>-->
-
-          <el-dropdown v-if="scope.row.containerStatus === 'running'">
-            <el-button size="mini" type="success">
-              <i class="el-icon-caret-right"></i> 正在运行
-            </el-button>
+          <el-dropdown v-if="scope.row.containerStatus === 'running'" trigger="click">
+            <span class="el-dropdown-link">
+              <el-tag type="success"><i class="el-icon-caret-right"/> 正在运行</el-tag>
+            </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item @click.native="doAction('stop',scope.row)">
-                <el-button size="mini" type="text">
-                  <i class="el-icon-video-pause"></i> 暂停
-                </el-button>
+              <el-dropdown-item icon="el-icon-video-pause" @click.native="doAction('stop',scope.row)">
+                停止
               </el-dropdown-item>
-              <el-dropdown-item @click.native="doAction('recreate',scope.row)">
-                <i class="el-icon-refresh"></i> 重建二维码
+              <el-dropdown-item icon="el-icon-refresh" @click.native="doAction('recreate',scope.row)">
+                重建二维码
               </el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
 
-          <el-dropdown v-if="scope.row.containerStatus === 'exited'">
-            <el-button size="mini" type="danger">
-              <i class="el-icon-video-pause"></i> 已停止
-            </el-button>
+          <el-dropdown v-if="scope.row.containerStatus === 'exited'" trigger="click">
+            <span class="el-dropdown-link">
+              <el-tag type="danger"><i class="el-icon-video-pause"/> 已停止</el-tag>
+            </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item @click.native="doAction('start',scope.row)">
-                <el-button size="mini" type="text">
-                  <i class="el-icon-caret-right"></i> 开始
-                </el-button>
+              <el-dropdown-item icon="el-icon-caret-right" @click.native="doAction('start',scope.row)">
+                开始
               </el-dropdown-item>
-<!--              <el-dropdown-item @click.native="doAction('recreate',scope.row)">-->
-<!--                <i class="el-icon-refresh"></i> 重建二维码-->
-<!--              </el-dropdown-item>-->
             </el-dropdown-menu>
           </el-dropdown>
 
@@ -144,7 +134,7 @@
 </template>
 
 <script>
-import {Loading} from "element-ui";
+import {Loading} from 'element-ui'
 
 export default {
   data() {
@@ -205,16 +195,16 @@ export default {
         confirmButtonText: '删除',
         cancelButtonText: '取消'
       }).then(async () => {
-        const instanceLoading = Loading.service(undefined);
+        const instanceLoading = Loading.service(undefined)
         await this.$http.delete(`/api/v2/users/${userInfo._id}`)
           .then(async response => {
             const res = response.data
             if (res.meta.status !== 200) {
-              instanceLoading.close();
+              instanceLoading.close()
               return this.$message.error('删除失败!')
             }
             await this.getUserList()
-            instanceLoading.close();
+            instanceLoading.close()
             this.$message.success('删除成功!')
           })
       }).catch(action => {
@@ -235,7 +225,7 @@ export default {
       window.sessionStorage.setItem('activePath', '/users/create')
     },
     async doAction(actionName, user) {
-      const instanceLoading = Loading.service(undefined);
+      const instanceLoading = Loading.service(undefined)
 
       await this.$http.post(`/api/v2/container/${actionName}`,
         {
@@ -243,11 +233,11 @@ export default {
         }).then(async response => {
         const res = response.data
         await this.getUserList()
-        instanceLoading.close();
+        instanceLoading.close()
         if (res.meta.status === 200) {
           this.$message.success('操作成功!')
         }
-      });
+      })
     },
     toTraffic(value) {
       if (value < 1000) {

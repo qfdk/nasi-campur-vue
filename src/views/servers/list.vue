@@ -3,7 +3,7 @@
     <el-row :gutter="10">
       <el-col :md="8">
         <el-input v-model="queryInfo.keyword" clearable placeholder="请输入内容" @clear="getServerList()">
-          <el-button slot="append" icon="el-icon-search" @click="getServerList()"/>
+          <el-button slot="append" icon="el-icon-search" @click="getServerList()" />
         </el-input>
       </el-col>
       <el-col :md="8">
@@ -73,8 +73,8 @@
         label="操作"
       >
         <template slot-scope="scope">
-          <el-button icon="el-icon-edit" size="mini" type="primary" @click="editServer(scope.row._id)"/>
-          <el-button icon="el-icon-delete" size="mini" type="danger" @click="deleteServer(scope.row)"/>
+          <el-button icon="el-icon-edit" size="mini" type="primary" @click="editServer(scope.row._id)" />
+          <el-button icon="el-icon-delete" size="mini" type="danger" @click="deleteServer(scope.row)" />
         </template>
       </el-table-column>
     </el-table>
@@ -134,7 +134,7 @@ export default {
       this.getServerList()
     },
     createServer() {
-      this.$router.push({name: 'create-server'})
+      this.$router.push({ name: 'create-server' })
       window.localStorage.setItem('activePath', '/servers/create')
     },
     async deleteServer(serverInfo) {
@@ -143,7 +143,7 @@ export default {
         distinguishCancelAndClose: true,
         confirmButtonText: '删除',
         cancelButtonText: '取消'
-      }).then(async () => {
+      }).then(async() => {
         await this.$http.delete(`/api/v2/servers/${serverInfo._id}`)
           .then(response => {
             const res = response.data
@@ -197,7 +197,7 @@ export default {
         }).catch(e => {
           this.$message.error(e.toString())
         })
-    },
+    }
   }
 }
 </script>

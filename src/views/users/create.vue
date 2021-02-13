@@ -3,13 +3,13 @@
     <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
       <el-form-item label="微信名" prop="wechatName">
         <el-col :md="8" :xs="24">
-          <el-input v-model="ruleForm.wechatName" clearable/>
+          <el-input v-model="ruleForm.wechatName" clearable />
         </el-col>
       </el-form-item>
 
       <el-form-item label="昵称" prop="nickname" required>
         <el-col :md="8" :xs="24">
-          <el-input v-model="ruleForm.nickname" clearable/>
+          <el-input v-model="ruleForm.nickname" clearable />
         </el-col>
       </el-form-item>
 
@@ -57,16 +57,16 @@
       </el-form-item>
 
       <el-form-item label="付款激活" prop="isEnable">
-        <el-switch v-model="ruleForm.isEnable"/>
+        <el-switch v-model="ruleForm.isEnable" />
       </el-form-item>
 
       <el-form-item label="自主控制" prop="enableSelfControl">
-        <el-switch v-model="ruleForm.enableSelfControl"/>
+        <el-switch v-model="ruleForm.enableSelfControl" />
       </el-form-item>
 
       <el-form-item label="超级图标" prop="icon">
         <el-col :md="8" :xs="24">
-          <el-input v-model="ruleForm.icon"/>
+          <el-input v-model="ruleForm.icon" />
         </el-col>
       </el-form-item>
 
@@ -78,7 +78,7 @@
   </div>
 </template>
 <script>
-import {Loading} from "element-ui";
+import { Loading } from 'element-ui'
 
 export default {
   data() {
@@ -96,18 +96,18 @@ export default {
       servers: [],
       rules: {
         wechatName: [
-          {required: true, message: '请输微信账号', trigger: 'blur'},
-          {min: 1, max: 24, message: '长度在 3 到 5 个字符', trigger: 'blur'}
+          { required: true, message: '请输微信账号', trigger: 'blur' },
+          { min: 1, max: 24, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ],
         nickname: [
-          {required: true, message: '请输入昵称', trigger: 'blur'},
-          {min: 1, max: 24, message: '长度在 3 到 5 个字符', trigger: 'blur'}
+          { required: true, message: '请输入昵称', trigger: 'blur' },
+          { min: 1, max: 24, message: '长度在 3 到 5 个字符', trigger: 'blur' }
         ],
         startTime: [
-          {type: 'string', required: true, message: '请选择日期', trigger: 'change'}
+          { type: 'string', required: true, message: '请选择日期', trigger: 'change' }
         ],
         endTime: [
-          {type: 'string', required: true, message: '请选择时间', trigger: 'change'}
+          { type: 'string', required: true, message: '请选择时间', trigger: 'change' }
         ]
       }
     }
@@ -117,15 +117,15 @@ export default {
   },
   methods: {
     submitForm(formName) {
-      const instanceLoading = Loading.service(undefined);
-      this.$refs[formName].validate(async (valid) => {
+      const instanceLoading = Loading.service(undefined)
+      this.$refs[formName].validate(async(valid) => {
         if (valid) {
-          const {data: res} = await this.$http.post('/api/v2/users/create', {
+          const { data: res } = await this.$http.post('/api/v2/users/create', {
             ...this.ruleForm
           })
           if (res.status === 200) {
-            instanceLoading.close();
-            await this.$router.push({name: 'list-user'});
+            instanceLoading.close()
+            await this.$router.push({ name: 'list-user' })
             window.localStorage.setItem('activePath', '/users/list')
           } else {
             this.$message.error('添加失败 !')
