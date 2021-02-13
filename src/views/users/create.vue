@@ -64,6 +64,10 @@
         <el-switch v-model="ruleForm.enableSelfControl" />
       </el-form-item>
 
+      <el-form-item label="V2ray" prop="isPc">
+        <el-switch v-model="ruleForm.isPc" />
+      </el-form-item>
+
       <el-form-item label="超级图标" prop="icon">
         <el-col :md="8" :xs="24">
           <el-input v-model="ruleForm.icon" />
@@ -91,6 +95,7 @@ export default {
         endTime: '',
         isEnable: false,
         enableSelfControl: false,
+        isPc: false,
         icon: '<span class="label label-primary">iOS</span>'
       },
       servers: [],

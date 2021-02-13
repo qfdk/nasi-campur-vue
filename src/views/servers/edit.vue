@@ -44,6 +44,10 @@
         </el-col>
       </el-form-item>
 
+      <el-form-item label="v2ray服务" prop="hasV2ray">
+        <el-switch v-model="ruleForm.hasV2ray" />
+      </el-form-item>
+
       <el-form-item label="公共显示" prop="isPublic">
         <el-switch v-model="ruleForm.isPublic" />
       </el-form-item>
@@ -70,6 +74,7 @@ export default {
         bigBoss: '',
         description: '',
         nodeId: '',
+        hasV2ray: false,
         isPublic: false
       }
     }

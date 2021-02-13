@@ -40,6 +40,16 @@
           <el-input v-model="ruleForm.bigBoss" clearable />
         </el-col>
       </el-form-item>
+      <el-form-item label="v2ray服务" prop="hasV2ray">
+        <el-col :md="8" :xs="24">
+          <el-switch v-model="ruleForm.hasV2ray" />
+        </el-col>
+      </el-form-item>
+      <el-form-item label="公共显示" prop="isPublic">
+        <el-col :md="8" :xs="24">
+          <el-switch v-model="ruleForm.isPublic" />
+        </el-col>
+      </el-form-item>
       <el-form-item label="备注：" prop="description">
         <el-col :md="8" :xs="24">
           <el-input v-model="ruleForm.description" clearable />
@@ -66,7 +76,9 @@ export default {
         ip: '',
         domain: '',
         bigBoss: '',
-        description: ''
+        description: '',
+        hasV2ray: false,
+        isPublic: false
       }
     }
   },

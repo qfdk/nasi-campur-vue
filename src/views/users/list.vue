@@ -3,7 +3,7 @@
     <el-row :gutter="10">
       <el-col :md="8">
         <el-input v-model="queryInfo.keyword" clearable placeholder="请输入内容" @clear="getUserList()">
-          <el-button slot="append" icon="el-icon-search" @click="getUserList()"/>
+          <el-button slot="append" icon="el-icon-search" @click="getUserList()" />
         </el-input>
       </el-col>
       <el-col :md="8">
@@ -70,7 +70,7 @@
         <template slot-scope="scope">
           <el-dropdown v-if="scope.row.containerStatus === 'running'" trigger="click">
             <span class="el-dropdown-link">
-              <el-tag type="success"><i class="el-icon-caret-right"/> 正在运行</el-tag>
+              <el-tag type="success"><i class="el-icon-caret-right" /> 正在运行</el-tag>
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item icon="el-icon-video-pause" @click.native="doAction('stop',scope.row)">
@@ -84,7 +84,7 @@
 
           <el-dropdown v-if="scope.row.containerStatus === 'exited'" trigger="click">
             <span class="el-dropdown-link">
-              <el-tag type="danger"><i class="el-icon-video-pause"/> 已停止</el-tag>
+              <el-tag type="danger"><i class="el-icon-video-pause" /> 已停止</el-tag>
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item icon="el-icon-caret-right" @click.native="doAction('start',scope.row)">
@@ -115,8 +115,8 @@
         label="操作"
       >
         <template slot-scope="scope">
-          <el-button icon="el-icon-edit" size="mini" type="primary" @click="editUser(scope.row._id)"/>
-          <el-button icon="el-icon-delete" size="mini" type="danger" @click="deleteUser(scope.row)"/>
+          <el-button icon="el-icon-edit" size="mini" type="primary" @click="editUser(scope.row._id)" />
+          <el-button icon="el-icon-delete" size="mini" type="danger" @click="deleteUser(scope.row)" />
         </template>
       </el-table-column>
     </el-table>
@@ -134,7 +134,7 @@
 </template>
 
 <script>
-import {Loading} from 'element-ui'
+import { Loading } from 'element-ui'
 
 export default {
   data() {
@@ -155,7 +155,7 @@ export default {
   methods: {
     async getUserList() {
       this.listLoading = true
-      const {data: res} = await this.$http.get('/api/v2/users',
+      const { data: res } = await this.$http.get('/api/v2/users',
         {
           params: this.queryInfo
         })
@@ -194,7 +194,7 @@ export default {
         distinguishCancelAndClose: true,
         confirmButtonText: '删除',
         cancelButtonText: '取消'
-      }).then(async () => {
+      }).then(async() => {
         const instanceLoading = Loading.service(undefined)
         await this.$http.delete(`/api/v2/users/${userInfo._id}`)
           .then(async response => {
@@ -221,7 +221,7 @@ export default {
       window.sessionStorage.removeItem('activePath')
     },
     createUser() {
-      this.$router.push({name: 'create-user'})
+      this.$router.push({ name: 'create-user' })
       window.sessionStorage.setItem('activePath', '/users/create')
     },
     async doAction(actionName, user) {
