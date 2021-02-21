@@ -64,7 +64,7 @@
         <el-switch v-model="ruleForm.enableSelfControl" />
       </el-form-item>
 
-      <el-form-item label="V2ray" prop="hasV2ray">
+      <el-form-item v-if="displayHasV2ray()" label="V2ray" prop="hasV2ray">
         <el-switch v-model="ruleForm.hasV2ray" />
       </el-form-item>
 
@@ -99,42 +99,46 @@ export default {
       },
       servers: [],
       rules: {
-        wechatName: [{
-          required: true,
-          message: '请输微信账号',
-          trigger: 'blur'
-        },
-        {
-          min: 1,
-          max: 24,
-          message: '长度在 3 到 5 个字符',
-          trigger: 'blur'
-        }
+        wechatName: [
+          {
+            required: true,
+            message: '请输微信账号',
+            trigger: 'blur'
+          },
+          {
+            min: 1,
+            max: 24,
+            message: '长度在 3 到 5 个字符',
+            trigger: 'blur'
+          }
         ],
-        nickname: [{
-          required: true,
-          message: '请输入昵称',
-          trigger: 'blur'
-        },
-        {
-          min: 1,
-          max: 24,
-          message: '长度在 3 到 5 个字符',
-          trigger: 'blur'
-        }
+        nickname: [
+          {
+            required: true,
+            message: '请输入昵称',
+            trigger: 'blur'
+          },
+          {
+            min: 1,
+            max: 24,
+            message: '长度在 3 到 5 个字符',
+            trigger: 'blur'
+          }
         ],
-        startTime: [{
-          type: 'string',
-          required: true,
-          message: '请选择日期',
-          trigger: 'change'
-        }],
-        endTime: [{
-          type: 'string',
-          required: true,
-          message: '请选择时间',
-          trigger: 'change'
-        }]
+        startTime: [
+          {
+            type: 'string',
+            required: true,
+            message: '请选择日期',
+            trigger: 'change'
+          }],
+        endTime: [
+          {
+            type: 'string',
+            required: true,
+            message: '请选择时间',
+            trigger: 'change'
+          }]
       }
     }
   },
@@ -169,6 +173,11 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields()
+    },
+    displayHasV2ray() {
+      const serverId = this.ruleForm.serverId
+      const res = this.servers.find(ele => ele._id === serverId)
+      return res ? res.hasV2ray : false
     },
     async getServerList() {
       await this.$http.get('/api/v2/servers', {
