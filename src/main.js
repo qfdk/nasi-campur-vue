@@ -10,6 +10,7 @@ import store from './store'
 import router from './router'
 
 import '@/icons' // icon
+import './assets/css/global.css'
 import './assets/fonts/iconfont.css'
 import axios from '@/utils/request'
 import * as dayjs from 'dayjs'
@@ -31,7 +32,8 @@ if (process.env.NODE_ENV === 'production') {
 // FastClick的ios点击穿透解决方案
 FastClick.prototype.focus = function(targetElement) {
   let length
-  if (targetElement.setSelectionRange && targetElement.type.indexOf('date') !== 0 && targetElement.type !== 'time' && targetElement.type !== 'month') {
+  if (targetElement.setSelectionRange && targetElement.type.indexOf('date') !==
+    0 && targetElement.type !== 'time' && targetElement.type !== 'month') {
     length = targetElement.value.length
     targetElement.focus()
     targetElement.setSelectionRange(length, length)

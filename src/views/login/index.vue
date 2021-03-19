@@ -86,13 +86,13 @@ export default {
 
 <style lang="scss" scoped>
 .login_container {
-  background: url('../../assets/img/bg.png');
-  // background-color: #2b4b6b;
+  //background: url('../../assets/img/bg.png');
   height: 100%;
 }
 
 .login_box {
-  width: 450px;
+  max-width: 450px;
+  width: 100%;
   height: 300px;
   background-color: #fff;
   border-radius: 10px;
