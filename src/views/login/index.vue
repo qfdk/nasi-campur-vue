@@ -3,7 +3,7 @@
     <div class="login_box">
       <!-- 头部区域 -->
       <div class="avatar_box">
-        <img alt src="http://qfdk.free.fr/icon.png">
+        <img alt src="../../assets/img/icon.png">
       </div>
       <!-- 表单区域 -->
       <el-form ref="loginFormRef" :model="loginForm" class="login_form" label-width="0px">
