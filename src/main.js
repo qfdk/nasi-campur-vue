@@ -10,6 +10,7 @@ import store from './store'
 import router from './router'
 
 import '@/icons' // icon
+import './assets/fonts/iconfont.css'
 import axios from '@/utils/request'
 import * as dayjs from 'dayjs'
 import FastClick from 'fastclick'
