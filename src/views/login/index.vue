@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <div class="avatar_box">
-      <img alt src="http://qfdk.free.fr/icon.png">
+      <img alt src="../../assets/img/icon.png">
     </div>
     <el-form
       ref="loginForm"
