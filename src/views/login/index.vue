@@ -34,7 +34,7 @@
           ref="password"
           v-model="loginForm.password"
           :type="passwordType"
-          auto-complete="on"
+          auto-complete="new-password"
           name="password"
           placeholder="Password"
           tabindex="2"
@@ -112,27 +112,30 @@ export default {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss">
+<style lang="scss" rel="stylesheet/scss">
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
-$bg:#000000a1;
-$light_gray:#eee;
+$bg: #00000000;
+$light_gray: #eee;
 $cursor: #fff;
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-  .login-container .el-input input{
+  .login-container .el-input input {
     color: $cursor;
+
     &::first-line {
       color: $light_gray;
     }
   }
 }
+
 /* reset element-ui css */
 .login-container {
   .el-input {
     display: inline-block;
     height: 47px;
     width: 85%;
+
     input {
       background: transparent;
       border: 0px;
@@ -142,12 +145,14 @@ $cursor: #fff;
       color: $light_gray;
       height: 47px;
       caret-color: $cursor;
+
       &:-webkit-autofill {
         -webkit-box-shadow: 0 0 0px 1000px $bg inset !important;
         -webkit-text-fill-color: $cursor !important;
       }
     }
   }
+
   .el-form-item {
     border: 1px solid rgba(255, 255, 255, 0.1);
     background: rgba(0, 0, 0, 0.1);
@@ -158,7 +163,7 @@ $cursor: #fff;
 </style>
 
 <style lang="scss" scoped>
-$bg: #2d3a4b;
+$bg: #00000000;
 $dark_gray: #889aa4;
 $light_gray: #eee;
 
