@@ -201,7 +201,7 @@ $light_gray: #eee;
 
   .login-form {
     position: relative;
-    width: 520px;
+    width: 420px;
     max-width: 100%;
     margin: 200px auto;
     background-color: #000000a1;
