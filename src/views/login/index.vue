@@ -168,6 +168,7 @@ $dark_gray: #889aa4;
 $light_gray: #eee;
 
 .login-container {
+  background: url('../../assets/img/bg.png');
   min-height: 100%;
   width: 100%;
   overflow: hidden;
