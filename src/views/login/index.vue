@@ -34,7 +34,6 @@
           ref="password"
           v-model="loginForm.password"
           :type="passwordType"
-          auto-complete="new-password"
           name="password"
           placeholder="Password"
           tabindex="2"
@@ -115,141 +114,130 @@ export default {
 <style lang="scss" rel="stylesheet/scss">
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
-
-$bg: #00000000;
-$light_gray: #eee;
-$cursor: #fff;
-@supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
+@supports (-webkit-mask: none) and (not (cater-color:#fff)) {
   .login-container .el-input input {
-    color: $cursor;
-
-    &::first-line {
-      color: $light_gray;
-    }
+    color: #fff
   }
 }
 
-/* reset element-ui css */
-.login-container {
-  .el-input {
-    display: inline-block;
-    height: 47px;
-    width: 85%;
-
-    input {
-      background: transparent;
-      border: 0px;
-      -webkit-appearance: none;
-      border-radius: 0px;
-      padding: 12px 5px 12px 15px;
-      color: $light_gray;
-      height: 47px;
-      caret-color: $cursor;
-
-      &:-webkit-autofill {
-        -webkit-box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
-      }
-    }
-  }
-
-  .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    color: #454545;
-  }
+.login-container .el-input {
+  display: inline-block;
+  height: 47px;
+  width: 85%
 }
-</style>
 
-<style lang="scss" scoped>
-$bg: #00000000;
-$dark_gray: #889aa4;
-$light_gray: #eee;
+.login-container .el-input input {
+  background: transparent;
+  border: 0;
+  -webkit-appearance: none;
+  border-radius: 0;
+  padding: 12px 5px 12px 15px;
+  color: #fff;
+  height: 47px;
+  caret-color: #fff;
+  -webkit-text-fill-color: #fff
+}
+
+.login-container .el-input input:-webkit-autofill {
+  -webkit-text-fill-color: #fff !important;
+  -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  -webkit-transition: background-color 50000s ease-in-out 0s !important;
+  transition: background-color 50000s ease-in-out 0s !important
+}
+
+.login-container .el-form-item {
+  border: 1px solid hsla(0, 0%, 100%, .1);
+  background: rgba(0, 0, 0, .1);
+  border-radius: 5px;
+  color: #454545
+}
 
 .login-container {
-  background: url('../../assets/img/bg.png');
   min-height: 100%;
   width: 100%;
   overflow: hidden;
+  background: url('../../assets/img/bg.png');
+}
 
-  .el-form {
-    padding: 20px;
-    border-radius: 10px;
-  }
+.login-container.mobile {
+  background-size: auto 100%
+}
 
-  .avatar_box {
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
-    border: 1px solid #eee;
-    padding: 10px;
-    box-shadow: 0 0 10px #ddd;
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    margin-top: 170px;
-    z-index: 1;
+.login-container .login-form {
+  position: relative;
+  width: 420px;
+  max-width: 95%;
+  padding: 50px 10px 0 10px;
+  margin: 220px auto 0;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, .6313725490196078);
+  border-radius: 10px
+}
 
-    img {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      background-color: #eee;
-    }
-  }
+.login-container .tips {
+  font-size: 14px;
+  color: #fff;
+  margin-bottom: 10px
+}
 
-  .login-form {
-    position: relative;
-    width: 420px;
-    max-width: 100%;
-    margin: 200px auto;
-    background-color: #000000a1;
-    overflow: hidden;
-    padding: 50px 10px 0px 10px;
-  }
+.login-container .tips span:first-of-type {
+  margin-right: 16px
+}
 
-  .tips {
-    font-size: 14px;
-    color: #fff;
-    margin-bottom: 10px;
+.login-container .svg-container {
+  padding: 6px 5px 6px 15px;
+  color: #fff;
+  vertical-align: middle;
+  width: 30px;
+  display: inline-block
+}
 
-    span {
-      &:first-of-type {
-        margin-right: 16px;
-      }
-    }
-  }
+.login-container .title-container {
+  position: relative
+}
 
-  .svg-container {
-    padding: 6px 5px 6px 15px;
-    color: $dark_gray;
-    vertical-align: middle;
-    width: 30px;
-    display: inline-block;
-  }
+.login-container .title-container .title {
+  font-size: 26px;
+  color: rgba(0, 0, 0, .6);
+  margin: 0 auto 40px auto;
+  text-align: center;
+  font-weight: 700
+}
 
-  .title-container {
-    position: relative;
+.login-container .show-pwd {
+  position: absolute;
+  right: 10px;
+  top: 7px;
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none
+}
 
-    .title {
-      font-size: 26px;
-      color: $light_gray;
-      margin: 0px auto 40px auto;
-      text-align: center;
-      font-weight: bold;
-    }
-  }
+.login-container .avatar_box {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  border: 1px solid #eee;
+  padding: 10px;
+  box-shadow: 0 0 10px #ddd;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  margin-top: 190px;
+  z-index: 1;
+}
 
-  .show-pwd {
-    position: absolute;
-    right: 10px;
-    top: 7px;
-    font-size: 16px;
-    color: $dark_gray;
-    cursor: pointer;
-    user-select: none;
-  }
+.avatar_box img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #eee;
 }
 </style>
