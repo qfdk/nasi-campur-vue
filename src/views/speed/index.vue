@@ -40,17 +40,17 @@
 
 </template>
 <script>
-const getURL = (URL) => {
+const getServerInfo = (server) => {
   return new Promise(function(resolve, reject) {
     const req = new XMLHttpRequest()
     const date1 = new Date()
-    req.open('GET', URL, true)
+    req.open('GET', server.url, true)
     req.responseType = 'json'
     req.setRequestHeader('Accept', 'application/json')
     req.onload = function() {
       if (req.status === 200) {
         const date2 = new Date()
-        resolve({ ...req.response, delta: date2 - date1 })
+        resolve({ ...server, delta: date2 - date1 })
       } else {
         reject(new Error(req.statusText))
       }
@@ -78,7 +78,7 @@ export default {
       this.listLoading = true
       const tables = []
       for (const server of this.servers) {
-        tables.push(getURL(server.url))
+        tables.push(getServerInfo(server))
       }
       const that = this
       Promise.all(tables).then(function(results) {
