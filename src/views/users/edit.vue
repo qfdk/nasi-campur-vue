@@ -192,7 +192,7 @@ export default {
       const { data: res } = await this.$http.get(`/api/v2/users/${uid}`)
       this.ruleForm = {
         ...res,
-        serverId: res.server.nodeId,
+        serverId: res.serverId,
         oldDomain: res.server.domain
       }
     }

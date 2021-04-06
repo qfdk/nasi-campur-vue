@@ -73,7 +73,6 @@ export default {
         domain: '',
         bigBoss: '',
         description: '',
-        nodeId: '',
         hasV2ray: false,
         isPublic: false
       }
