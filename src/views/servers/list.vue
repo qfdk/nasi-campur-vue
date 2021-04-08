@@ -27,6 +27,11 @@
         type="index"
       />
       <el-table-column
+        label="排序"
+        prop="order"
+        width="50"
+      />
+      <el-table-column
         label="节点名称"
         prop="appName"
         width="250"

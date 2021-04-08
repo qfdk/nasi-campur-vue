@@ -51,7 +51,11 @@
       <el-form-item label="公共显示" prop="isPublic">
         <el-switch v-model="ruleForm.isPublic" />
       </el-form-item>
-
+      <el-form-item label="排序：" prop="order">
+        <el-col :md="8" :xs="24">
+          <el-input v-model="ruleForm.order" clearable />
+        </el-col>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">立即更新</el-button>
         <el-button @click="resetForm('ruleForm')">重置</el-button>
@@ -74,7 +78,8 @@ export default {
         bigBoss: '',
         description: '',
         hasV2ray: false,
-        isPublic: false
+        isPublic: false,
+        order: 0
       }
     }
   },
