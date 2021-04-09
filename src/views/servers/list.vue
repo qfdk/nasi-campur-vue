@@ -14,6 +14,7 @@
       </el-col>
     </el-row>
     <el-table
+      ref="dragTable"
       v-loading="listLoading"
       :data="servers"
       border
@@ -21,15 +22,11 @@
       fit
       highlight-current-row
       style="margin-top: 15px"
+      row-key="_id"
     >
       <el-table-column
         label="#"
         type="index"
-      />
-      <el-table-column
-        label="排序"
-        prop="order"
-        width="50"
       />
       <el-table-column
         label="节点名称"
@@ -96,9 +93,12 @@
 </template>
 
 <script>
+import Sortable from 'sortablejs'
+
 export default {
   data() {
     return {
+      sortable: null,
       servers: [],
       total: 0,
       queryInfo: {
@@ -106,7 +106,9 @@ export default {
         pageNum: 1,
         pageSize: 10
       },
-      listLoading: true
+      listLoading: true,
+      oldList: [],
+      newOrderList: []
     }
   },
   created() {
@@ -118,17 +120,21 @@ export default {
       await this.$http.get('/api/v2/servers',
         {
           params: this.queryInfo
-        })
-        .then(response => {
-          if (response) {
-            const res = response.data
-            this.servers = res.data
-            this.total = res.total
-            this.listLoading = false
-          }
-        }).catch((e) => {
-          console.log(e)
-        })
+        }).then(response => {
+        if (response) {
+          const res = response.data
+          this.servers = res.data
+          this.total = res.total
+          this.listLoading = false
+          this.oldList = this.servers.map(v => v._id)
+          this.newOrderList = this.oldList.slice()
+        }
+      }).catch((e) => {
+        console.log(e)
+      })
+      this.$nextTick(() => {
+        this.setSort()
+      })
     },
     handleSizeChange(newSize) {
       this.queryInfo.pageSize = newSize
@@ -149,14 +155,13 @@ export default {
         confirmButtonText: '删除',
         cancelButtonText: '取消'
       }).then(async() => {
-        await this.$http.delete(`/api/v2/servers/${serverInfo._id}`)
-          .then(response => {
-            const res = response.data
-            if (res.meta.status !== 200) {
-              return this.$message.error('删除失败!')
-            }
-            this.$message.success('删除成功!')
-          })
+        await this.$http.delete(`/api/v2/servers/${serverInfo._id}`).then(response => {
+          const res = response.data
+          if (res.meta.status !== 200) {
+            return this.$message.error('删除失败!')
+          }
+          this.$message.success('删除成功!')
+        })
         await this.getServerList()
       }).catch(action => {
         this.$message({
@@ -172,38 +177,74 @@ export default {
       window.localStorage.removeItem('activePath')
     },
     async refresh() {
-      await this.$http.get(`/api/v2/servers/refresh`)
-        .then(response => {
-          if (response) {
-            const res = response.data
-            if (res.meta.status === 200) {
-              this.$message.success('刷新节点信息成功!')
-            }
-          } else {
-            return this.$message.error('刷新节点信息失败!')
+      await this.$http.get(`/api/v2/servers/refresh`).then(response => {
+        if (response) {
+          const res = response.data
+          if (res.meta.status === 200) {
+            this.getServerList()
+            this.$message.success('刷新节点信息成功!')
           }
-        }).catch(e => {
-          this.$message.error(e.toString())
-        })
+        } else {
+          return this.$message.error('刷新节点信息失败!')
+        }
+      }).catch(e => {
+        this.$message.error(e.toString())
+      })
     },
     async changeServerStatus(server) {
-      await this.$http.put(`/api/v2/servers/${server._id}/isPublic/${server.isPublic}`)
-        .then(response => {
-          if (response) {
-            const res = response.data
-            if (res.meta.status !== 200) {
-              server.isPublic = !server.isPublic
-              return this.$message.error('修改失败!')
-            }
-            this.$message.success('更新成功!')
-          } else {
+      await this.$http.put(`/api/v2/servers/${server._id}/isPublic/${server.isPublic}`).then(response => {
+        if (response) {
+          const res = response.data
+          if (res.meta.status !== 200) {
+            server.isPublic = !server.isPublic
             return this.$message.error('修改失败!')
           }
-        }).catch(e => {
-          this.$message.error(e.toString())
-        })
+          this.$message.success('更新成功!')
+        } else {
+          return this.$message.error('修改失败!')
+        }
+      }).catch(e => {
+        this.$message.error(e.toString())
+      })
+    },
+    setSort() {
+      const el = this.$refs.dragTable.$el.querySelectorAll('.el-table__body-wrapper > table > tbody')[0]
+      this.sortable = Sortable.create(el, {
+        ghostClass: 'sortable-ghost', // Class name for the drop placeholder,
+        setData: function(dataTransfer) {
+          // to avoid Firefox bug
+          // Detail see : https://github.com/RubaXa/Sortable/issues/1012
+          dataTransfer.setData('Text', '')
+        },
+        onEnd: async evt => {
+          const targetRow = this.servers.splice(evt.oldIndex, 1)[0]
+          this.servers.splice(evt.newIndex, 0, targetRow)
+          // for show the changes, you can delete in you code
+          const tempIndex = this.newOrderList.splice(evt.oldIndex, 1)[0]
+          this.newOrderList.splice(evt.newIndex, 0, tempIndex)
+          await this.$http.post(`/api/v2/servers/sort`, { newOrders: this.newOrderList }).then(response => {
+            if (response) {
+              const res = response.data
+              if (res.status === 200) {
+                this.$message.success('排序成功!')
+              }
+            } else {
+              return this.$message.error('排序失败!')
+            }
+          }).catch(e => {
+            this.$message.error(e.toString())
+          })
+        }
+      })
     }
   }
 }
 </script>
 
+<style scoped>
+.sortable-ghost {
+  opacity: .8;
+  color: #fff !important;
+  background: #42b983 !important;
+}
+</style>
