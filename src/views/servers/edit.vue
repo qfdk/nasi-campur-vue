@@ -44,6 +44,10 @@
         </el-col>
       </el-form-item>
 
+      <el-form-item label="SSR 服务" prop="hasSSR">
+        <el-switch v-model="ruleForm.hasSSR" />
+      </el-form-item>
+
       <el-form-item label="v2ray服务" prop="hasV2ray">
         <el-switch v-model="ruleForm.hasV2ray" />
       </el-form-item>
@@ -77,6 +81,7 @@ export default {
         domain: '',
         bigBoss: '',
         description: '',
+        hasSSR: true,
         hasV2ray: false,
         isPublic: false,
         order: 0

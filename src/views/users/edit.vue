@@ -64,6 +64,10 @@
         <el-switch v-model="ruleForm.enableSelfControl" />
       </el-form-item>
 
+      <el-form-item v-if="displayHasSSR()" label="SSR" prop="hasSSR">
+        <el-switch v-model="ruleForm.hasSSR" />
+      </el-form-item>
+
       <el-form-item v-if="displayHasV2ray()" label="V2ray" prop="hasV2ray">
         <el-switch v-model="ruleForm.hasV2ray" />
       </el-form-item>
@@ -94,6 +98,7 @@ export default {
         endTime: '',
         isEnable: false,
         enableSelfControl: false,
+        hasSSR: true,
         hasV2ray: false,
         icon: '<span class="label label-primary">iOS</span>'
       },
@@ -173,6 +178,11 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields()
+    },
+    displayHasSSR() {
+      const serverId = this.ruleForm.serverId
+      const res = this.servers.find(ele => ele._id === serverId)
+      return res ? res.hasSSR : false
     },
     displayHasV2ray() {
       const serverId = this.ruleForm.serverId

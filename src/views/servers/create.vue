@@ -40,6 +40,11 @@
           <el-input v-model="ruleForm.bigBoss" clearable />
         </el-col>
       </el-form-item>
+      <el-form-item label="SSR 服务" prop="hasSSR">
+        <el-col :md="8" :xs="24">
+          <el-switch v-model="ruleForm.hasSSR" />
+        </el-col>
+      </el-form-item>
       <el-form-item label="v2ray服务" prop="hasV2ray">
         <el-col :md="8" :xs="24">
           <el-switch v-model="ruleForm.hasV2ray" />
@@ -77,6 +82,7 @@ export default {
         domain: '',
         bigBoss: '',
         description: '',
+        hasSSR: true,
         hasV2ray: false,
         isPublic: false
       }
