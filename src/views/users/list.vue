@@ -21,6 +21,8 @@
       fit
       highlight-current-row
       style="margin-top: 15px"
+      :row-style="{height: '0'}"
+      :cell-style="{padding: '6px;'}"
     >
       <el-table-column
         label="#"
@@ -44,10 +46,10 @@
         label="国家"
         prop="server.country"
       />
-      <el-table-column
-        label="城市"
-        prop="server.location"
-      />
+      <!--      <el-table-column-->
+      <!--        label="城市"-->
+      <!--        prop="server.location"-->
+      <!--      />-->
       <el-table-column
         label="结束时间"
         prop="endTime"
@@ -124,7 +126,7 @@
     <el-pagination
       :current-page="queryInfo.pageNum"
       :page-size="queryInfo.pageSize"
-      :page-sizes="[10, 20, 30, 40]"
+      :page-sizes="[20, 40]"
       :total="total"
       layout="total, sizes, prev, pager, next"
       @size-change="handleSizeChange"
@@ -144,7 +146,7 @@ export default {
       queryInfo: {
         keyword: '',
         pageNum: 1,
-        pageSize: 10
+        pageSize: 20
       },
       listLoading: true
     }
@@ -172,21 +174,20 @@ export default {
       this.getUserList()
     },
     async userStateChanged(userInfo) {
-      await this.$http.put(`/api/v2/users/${userInfo._id}/isEnable/${userInfo.isEnable}`)
-        .then(response => {
-          if (response) {
-            const res = response.data
-            if (res.meta.status !== 200) {
-              userInfo.isEnable = !userInfo.isEnable
-              return this.$message.error('修改失败!')
-            }
-            this.$message.success('更新成功!')
-          } else {
+      await this.$http.put(`/api/v2/users/${userInfo._id}/isEnable/${userInfo.isEnable}`).then(response => {
+        if (response) {
+          const res = response.data
+          if (res.meta.status !== 200) {
+            userInfo.isEnable = !userInfo.isEnable
             return this.$message.error('修改失败!')
           }
-        }).catch(e => {
-          this.$message.error(e.toString())
-        })
+          this.$message.success('更新成功!')
+        } else {
+          return this.$message.error('修改失败!')
+        }
+      }).catch(e => {
+        this.$message.error(e.toString())
+      })
     },
     async deleteUser(userInfo) {
       this.$confirm(`此操作将永久删除该用户 ${userInfo.wechatName}, 是否继续？`, '提示', {
@@ -196,17 +197,16 @@ export default {
         cancelButtonText: '取消'
       }).then(async() => {
         const instanceLoading = Loading.service(undefined)
-        await this.$http.delete(`/api/v2/users/${userInfo._id}`)
-          .then(async response => {
-            const res = response.data
-            if (res.meta.status !== 200) {
-              instanceLoading.close()
-              return this.$message.error('删除失败!')
-            }
-            await this.getUserList()
+        await this.$http.delete(`/api/v2/users/${userInfo._id}`).then(async response => {
+          const res = response.data
+          if (res.meta.status !== 200) {
             instanceLoading.close()
-            this.$message.success('删除成功!')
-          })
+            return this.$message.error('删除失败!')
+          }
+          await this.getUserList()
+          instanceLoading.close()
+          this.$message.success('删除成功!')
+        })
       }).catch(action => {
         this.$message({
           type: 'info',
@@ -247,19 +247,18 @@ export default {
       }
     },
     async refresh() {
-      await this.$http.get(`/api/v2/users/refresh`)
-        .then(response => {
-          if (response) {
-            const res = response.data
-            if (res.meta.status === 200) {
-              this.$message.success('手动请求刷新流量成功!')
-            }
-          } else {
-            return this.$message.error('刷新流量失败!')
+      await this.$http.get(`/api/v2/users/refresh`).then(response => {
+        if (response) {
+          const res = response.data
+          if (res.meta.status === 200) {
+            this.$message.success('手动请求刷新流量成功!')
           }
-        }).catch(e => {
-          this.$message.error(e.toString())
-        })
+        } else {
+          return this.$message.error('刷新流量失败!')
+        }
+      }).catch(e => {
+        this.$message.error(e.toString())
+      })
     }
   }
 }
