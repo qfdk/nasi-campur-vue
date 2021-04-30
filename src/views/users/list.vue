@@ -60,7 +60,7 @@
         label="流量使用"
       >
         <template slot-scope="scope">
-          {{ toTraffic(scope.row.networkRx + scope.row.networkRx) }}
+          {{ toTraffic(scope.row.networkRx + scope.row.networkTx) }}
         </template>
       </el-table-column>
       <el-table-column
