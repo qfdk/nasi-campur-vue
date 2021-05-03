@@ -51,7 +51,11 @@
       <el-form-item label="v2ray服务" prop="hasV2ray">
         <el-switch v-model="ruleForm.hasV2ray" />
       </el-form-item>
-
+      <el-form-item v-if="ruleForm.hasV2ray" label="v2ray域名：" prop="v2rayDomain">
+        <el-col :md="8" :xs="24">
+          <el-input v-model="ruleForm.v2rayDomain" clearable />
+        </el-col>
+      </el-form-item>
       <el-form-item label="公共显示" prop="isPublic">
         <el-switch v-model="ruleForm.isPublic" />
       </el-form-item>
@@ -83,6 +87,7 @@ export default {
         description: '',
         hasSSR: true,
         hasV2ray: false,
+        v2rayDomain: '',
         isPublic: false,
         order: 0
       }
@@ -97,7 +102,8 @@ export default {
         const {
           data: res
         } = await this.$http.put(`/api/v2/servers/${this.$route.params.uid}`, {
-          ...this.ruleForm
+          ...this.ruleForm,
+          v2rayDomain: this.ruleForm.hasV2ray ? this.ruleForm.v2rayDomain : ''
         })
         if (res.status === 200) {
           await this.$router.push({ name: 'list-server' })

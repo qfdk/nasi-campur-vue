@@ -50,6 +50,11 @@
           <el-switch v-model="ruleForm.hasV2ray" />
         </el-col>
       </el-form-item>
+      <el-form-item v-if="ruleForm.hasV2ray" label="v2ray域名：" prop="v2rayDomain">
+        <el-col :md="8" :xs="24">
+          <el-input v-model="ruleForm.v2rayDomain" clearable />
+        </el-col>
+      </el-form-item>
       <el-form-item label="公共显示" prop="isPublic">
         <el-col :md="8" :xs="24">
           <el-switch v-model="ruleForm.isPublic" />
@@ -83,6 +88,7 @@ export default {
         bigBoss: '',
         description: '',
         hasSSR: true,
+        v2rayDomain: '',
         hasV2ray: false,
         isPublic: false
       }
@@ -93,7 +99,8 @@ export default {
       this.$refs[formName].validate(async(valid) => {
         if (valid) {
           const { data: res } = await this.$http.post('/api/v2/servers/create', {
-            ...this.ruleForm
+            ...this.ruleForm,
+            v2rayDomain: this.ruleForm.hasV2ray ? this.ruleForm.v2rayDomain : ''
           })
           if (res.meta.status === 200) {
             await this.$router.push({ name: 'list-server' })
@@ -111,16 +118,15 @@ export default {
       this.$refs[formName].resetFields()
     },
     async search() {
-      await this.$http.get('/api/curl?url=' + this.ruleForm.url + '/info')
-        .then((response) => {
-          if (response.status === 200 && !response.data.errorMsg) {
-            const data = response.data
-            this.ruleForm = { ...data }
-            this.$message.success('获取信息成功 !')
-          } else {
-            this.$message.error('获取信息失败 !\n' + response.data.errorMsg)
-          }
-        })
+      await this.$http.get('/api/curl?url=' + this.ruleForm.url + '/info').then((response) => {
+        if (response.status === 200 && !response.data.errorMsg) {
+          const data = response.data
+          this.ruleForm = { ...data }
+          this.$message.success('获取信息成功 !')
+        } else {
+          this.$message.error('获取信息失败 !\n' + response.data.errorMsg)
+        }
+      })
     }
   }
 }
