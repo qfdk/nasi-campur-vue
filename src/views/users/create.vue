@@ -99,7 +99,7 @@ export default {
         endTime: '',
         isEnable: false,
         enableSelfControl: false,
-        hasSSR: true,
+        hasSSR: false,
         hasV2ray: false,
         icon: '<span class="label label-primary">iOS</span>'
       },
