@@ -98,7 +98,7 @@ export default {
         endTime: '',
         isEnable: false,
         enableSelfControl: false,
-        hasSSR: true,
+        hasSSR: false,
         hasV2ray: false,
         icon: '<span class="label label-primary">iOS</span>'
       },
@@ -152,6 +152,16 @@ export default {
     this.getUserByUid(this.$route.params.uid)
   },
   methods: {
+    displayHasSSR() {
+      const serverId = this.ruleForm.serverId
+      const res = this.servers.find(ele => ele._id === serverId)
+      return res ? res.hasSSR : false
+    },
+    displayHasV2ray() {
+      const serverId = this.ruleForm.serverId
+      const res = this.servers.find(ele => ele._id === serverId)
+      return res ? res.hasV2ray : false
+    },
     submitForm(formName) {
       this.$refs[formName].validate(async(valid) => {
         if (valid) {
@@ -159,7 +169,9 @@ export default {
             const {
               data: res
             } = await this.$http.put(`/api/v2/users/${this.$route.params.uid}`, {
-              ...this.ruleForm
+              ...this.ruleForm,
+              hasSSR: this.displayHasSSR() ? this.ruleForm.hasSSR : false,
+              hasV2ray: this.displayHasV2ray() ? this.ruleForm.hasV2ray : false
             })
             if (res.status === 200) {
               await this.$router.push({ name: 'list-user' })
@@ -178,16 +190,6 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields()
-    },
-    displayHasSSR() {
-      const serverId = this.ruleForm.serverId
-      const res = this.servers.find(ele => ele._id === serverId)
-      return res ? res.hasSSR : false
-    },
-    displayHasV2ray() {
-      const serverId = this.ruleForm.serverId
-      const res = this.servers.find(ele => ele._id === serverId)
-      return res ? res.hasV2ray : false
     },
     async getServerList() {
       await this.$http.get('/api/v2/servers', {
