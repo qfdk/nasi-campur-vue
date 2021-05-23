@@ -1,23 +1,22 @@
 <template>
   <div class="app-container">
     <el-row :gutter="10">
-      <el-col :md="8">
+      <el-col :md="8" :xs="18">
         <el-input v-model="queryInfo.keyword" clearable placeholder="请输入内容" @clear="getServerList()">
           <el-button slot="append" icon="el-icon-search" @click="getServerList()" />
         </el-input>
       </el-col>
-      <el-col :md="8">
+      <el-col :md="8" :xs="6">
         <router-link to="/servers/create">
           <el-button type="primary" @click="createServer()">添加节点</el-button>
         </router-link>
-        <el-button class="refresh" style="margin-left: 5px" type="primary" @click="refresh()">刷新节点</el-button>
+        <el-button v-if="displayMobile" class="refresh" style="margin-left: 5px" type="primary" @click="refresh()">刷新节点</el-button>
       </el-col>
     </el-row>
     <el-table
       ref="dragTable"
       v-loading="listLoading"
       :data="servers"
-      border
       element-loading-text="Loading"
       fit
       highlight-current-row
@@ -35,16 +34,19 @@
       />
       <el-table-column
         v-if="displayMobile"
+        min-width="120px"
         label="国家"
         prop="country"
       />
       <el-table-column
         v-if="displayMobile"
+        min-width="120px"
         label="城市"
         prop="location"
       />
       <el-table-column
         v-if="displayMobile"
+        min-width="200px"
         label="API地址"
         prop="url"
       >
@@ -58,10 +60,8 @@
         prop="containersCount"
         width="80"
       />
-      <el-table-column v-if="displayMobile" label="IP" prop="ip" />
-      <el-table-column
-        label="公共显示"
-      >
+      <el-table-column v-if="displayMobile" min-width="100px" label="IP" prop="ip" />
+      <el-table-column min-width="75px" label="公共显示">
         <template slot-scope="scope">
           <el-switch
             v-model="scope.row.isPublic"
@@ -72,7 +72,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column width="120px" label="操作">
+      <el-table-column min-width="120px" label="操作">
         <template slot-scope="scope">
           <el-button icon="el-icon-edit" size="mini" type="primary" @click="editServer(scope.row._id)" />
           <el-button icon="el-icon-delete" size="mini" type="danger" @click="deleteServer(scope.row)" />
