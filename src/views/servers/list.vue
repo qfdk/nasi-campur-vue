@@ -75,7 +75,7 @@
       <el-table-column min-width="120px" label="操作">
         <template slot-scope="scope">
           <el-button icon="el-icon-edit" size="mini" type="primary" @click="editServer(scope.row._id)" />
-          <el-button icon="el-icon-delete" size="mini" type="danger" @click="deleteServer(scope.row)" />
+          <el-button v-if="displayMobile" icon="el-icon-delete" size="mini" type="danger" @click="deleteServer(scope.row)" />
         </template>
       </el-table-column>
     </el-table>
