@@ -1,12 +1,12 @@
 <template>
   <div class="app-container">
     <el-row :gutter="10">
-      <el-col :md="8" :xs="18">
+      <el-col :md="8" :xs="17">
         <el-input v-model="queryInfo.keyword" clearable placeholder="请输入内容" @clear="getServerList()">
           <el-button slot="append" icon="el-icon-search" @click="getServerList()" />
         </el-input>
       </el-col>
-      <el-col :md="8" :xs="6">
+      <el-col :md="8" :xs="7">
         <router-link to="/servers/create">
           <el-button type="primary" @click="createServer()">添加节点</el-button>
         </router-link>
@@ -61,7 +61,7 @@
         width="80"
       />
       <el-table-column v-if="displayMobile" min-width="100px" label="IP" prop="ip" />
-      <el-table-column min-width="75px" label="公共显示">
+      <el-table-column v-if="displayMobile" min-width="75px" label="公共显示">
         <template slot-scope="scope">
           <el-switch
             v-model="scope.row.isPublic"

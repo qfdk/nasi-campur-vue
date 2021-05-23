@@ -1,12 +1,12 @@
 <template>
   <div class="app-container">
     <el-row :gutter="10">
-      <el-col :span="8" :xs="18">
+      <el-col :span="8" :xs="17">
         <el-input v-model="queryInfo.keyword" clearable placeholder="请输入内容" @clear="getUserList()">
           <el-button slot="append" icon="el-icon-search" @click="getUserList()" />
         </el-input>
       </el-col>
-      <el-col :span="8" :xs="6">
+      <el-col :span="8" :xs="7">
         <router-link to="/users/create">
           <el-button type="primary" @click="createUser()">添加用户</el-button>
         </router-link>
@@ -75,7 +75,7 @@
         </template>
       </el-table-column>
       <el-table-column v-if="displayMobile" label="容器端口" min-width="80" prop="containerPort" />
-      <el-table-column label="支付" min-width="70">
+      <el-table-column v-if="displayMobile" label="支付" min-width="70">
         <template slot-scope="scope">
           <el-switch
             v-model="scope.row.isEnable"
