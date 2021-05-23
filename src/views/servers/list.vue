@@ -31,17 +31,20 @@
       <el-table-column
         label="节点名称"
         prop="appName"
-        width="250"
+        width="200"
       />
       <el-table-column
+        v-if="displayMobile"
         label="国家"
         prop="country"
       />
       <el-table-column
+        v-if="displayMobile"
         label="城市"
         prop="location"
       />
       <el-table-column
+        v-if="displayMobile"
         label="API地址"
         prop="url"
       >
@@ -50,14 +53,12 @@
         </template>
       </el-table-column>
       <el-table-column
+        v-if="displayMobile"
         label="容器数量"
         prop="containersCount"
         width="80"
       />
-      <el-table-column
-        label="IP"
-        prop="ip"
-      />
+      <el-table-column v-if="displayMobile" label="IP" prop="ip" />
       <el-table-column
         label="公共显示"
       >
@@ -71,9 +72,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column
-        label="操作"
-      >
+      <el-table-column width="120px" label="操作">
         <template slot-scope="scope">
           <el-button icon="el-icon-edit" size="mini" type="primary" @click="editServer(scope.row._id)" />
           <el-button icon="el-icon-delete" size="mini" type="danger" @click="deleteServer(scope.row)" />
@@ -108,7 +107,24 @@ export default {
       },
       listLoading: true,
       oldList: [],
-      newOrderList: []
+      newOrderList: [],
+      screenWidth: window.innerWidth,
+      displayMobile: window.innerWidth > 600
+    }
+  },
+  watch: {
+    screenWidth(val) {
+      this.screenWidth = val
+      this.displayMobile = window.innerWidth > 600
+    }
+  },
+  mounted() {
+    const that = this
+    window.onresize = () => {
+      return (() => {
+        window.screenWidth = window.innerWidth
+        that.screenWidth = window.screenWidth
+      })()
     }
   },
   created() {

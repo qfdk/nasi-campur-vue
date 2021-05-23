@@ -48,7 +48,6 @@ export default {
       this.$http.post('/token/logout', {
         refreshToken: window.localStorage.getItem('refreshToken')
       }).then((res) => {
-        console.log(res)
         window.localStorage.clear()
         resetRouter()
         this.$router.push(`/login?redirect=${this.$route.fullPath}`)

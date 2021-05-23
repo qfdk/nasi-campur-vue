@@ -1,74 +1,54 @@
 <template>
   <div class="app-container">
     <el-row :gutter="10">
-      <el-col :md="8">
+      <el-col :span="8" :xs="16">
         <el-input v-model="queryInfo.keyword" clearable placeholder="请输入内容" @clear="getUserList()">
           <el-button slot="append" icon="el-icon-search" @click="getUserList()" />
         </el-input>
       </el-col>
-      <el-col :md="8">
+      <el-col :span="8" :xs="8">
         <router-link to="/users/create">
           <el-button type="primary" @click="createUser()">添加用户</el-button>
         </router-link>
-        <el-button class="refresh" style="margin-left: 5px" type="primary" @click="refresh()">刷新流量</el-button>
+        <el-button v-if="displayMobile" class="refresh" style="margin-left: 5px" type="primary" @click="refresh()">刷新流量</el-button>
       </el-col>
     </el-row>
     <el-table
       v-loading="listLoading"
       :data="users"
-      border
       element-loading-text="Loading"
-      fit
       highlight-current-row
-      style="margin-top: 15px"
+      fit
+      size="medium"
+      style="margin-top: 12px"
       :row-style="{height: '0'}"
-      :cell-style="{padding: '6px;'}"
+      :cell-style="{padding: '8px;'}"
     >
-      <el-table-column
-        label="#"
-        type="index"
-      />
-      <el-table-column
-        label="微信账号"
-        prop="wechatName"
-      >
+      <el-table-column label="#" type="index" />
+      <el-table-column v-if="displayMobile" label="微信账号" prop="wechatName" width="160">
         <template slot-scope="scope">
           <el-link :href="'/users/findUserByWechatName?wechatName='+scope.row.wechatName" type="primary">
             {{ scope.row.wechatName }}
           </el-link>
         </template>
       </el-table-column>
-      <el-table-column
-        label="昵称"
-        prop="nickname"
-      />
-      <el-table-column
-        label="国家"
-        prop="server.country"
-      />
+      <el-table-column label="昵称" prop="nickname" width="180" />
+      <el-table-column v-if="displayMobile" label="国家" prop="server.country" width="120" />
       <!--      <el-table-column-->
       <!--        label="城市"-->
       <!--        prop="server.location"-->
       <!--      />-->
-      <el-table-column
-        label="结束时间"
-        prop="endTime"
-      >
+      <el-table-column v-if="displayMobile" label="结束时间" prop="endTime" width="100">
         <template slot-scope="scope">
           {{ $dayjs(scope.row.endTime).format('YYYY-MM-DD') }}
         </template>
       </el-table-column>
-      <el-table-column
-        label="流量使用"
-      >
+      <el-table-column v-if="displayMobile" label="流量使用" width="90">
         <template slot-scope="scope">
           {{ toTraffic(scope.row.networkRx + scope.row.networkTx) }}
         </template>
       </el-table-column>
-      <el-table-column
-        label="容器状态"
-        prop="containerStatus"
-      >
+      <el-table-column v-if="displayMobile" label="容器状态" prop="containerStatus" width="125">
         <template slot-scope="scope">
           <el-dropdown v-if="scope.row.containerStatus === 'running'" trigger="click">
             <span class="el-dropdown-link">
@@ -97,13 +77,8 @@
 
         </template>
       </el-table-column>
-      <el-table-column
-        label="容器端口"
-        prop="containerPort"
-      />
-      <el-table-column
-        label="支付"
-      >
+      <el-table-column v-if="displayMobile" label="容器端口" width="80" prop="containerPort" />
+      <el-table-column label="支付" width="70">
         <template slot-scope="scope">
           <el-switch
             v-model="scope.row.isEnable"
@@ -113,16 +88,18 @@
           />
         </template>
       </el-table-column>
-      <el-table-column
-        label="操作"
-      >
+      <el-table-column label="操作" width="120px">
         <template slot-scope="scope">
           <el-button icon="el-icon-edit" size="mini" type="primary" @click="editUser(scope.row._id)" />
-          <el-button icon="el-icon-delete" size="mini" type="danger" @click="deleteUser(scope.row)" />
+          <el-button
+            icon="el-icon-delete"
+            size="mini"
+            type="danger"
+            @click="deleteUser(scope.row)"
+          />
         </template>
       </el-table-column>
     </el-table>
-
     <el-pagination
       :current-page="queryInfo.pageNum"
       :page-size="queryInfo.pageSize"
@@ -148,7 +125,24 @@ export default {
         pageNum: 1,
         pageSize: 20
       },
-      listLoading: true
+      listLoading: true,
+      screenWidth: window.innerWidth,
+      displayMobile: window.innerWidth > 600
+    }
+  },
+  watch: {
+    screenWidth(val) {
+      this.screenWidth = val
+      this.displayMobile = window.innerWidth > 600
+    }
+  },
+  mounted() {
+    const that = this
+    window.onresize = () => {
+      return (() => {
+        window.screenWidth = window.innerWidth
+        that.screenWidth = window.screenWidth
+      })()
     }
   },
   created() {
