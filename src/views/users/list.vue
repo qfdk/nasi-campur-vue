@@ -34,7 +34,7 @@
       </el-table-column>
       <el-table-column label="昵称" prop="nickname" min-width="180" />
       <el-table-column v-if="displayMobile" label="国家" prop="server.country" min-width="180" />
-      <el-table-column v-if="displayMobile" label="城市" prop="server.location" min-width="100" />
+      <el-table-column v-if="displayMobile" label="城市" prop="server.location" min-width="180" />
       <el-table-column v-if="displayMobile" label="结束时间" prop="endTime" min-width="100">
         <template slot-scope="scope">
           {{ $dayjs(scope.row.endTime).format('YYYY-MM-DD') }}
