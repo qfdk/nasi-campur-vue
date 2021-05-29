@@ -10,7 +10,9 @@
         <router-link to="/users/create">
           <el-button type="primary" @click="createUser()">添加用户</el-button>
         </router-link>
-        <el-button v-if="displayMobile" class="refresh" style="margin-left: 5px" type="primary" @click="refresh()">刷新流量</el-button>
+        <el-button v-if="displayMobile" class="refresh" style="margin-left: 5px" type="primary" @click="refresh()">
+          刷新流量
+        </el-button>
       </el-col>
     </el-row>
     <el-table
@@ -45,8 +47,12 @@
           {{ toTraffic(scope.row.networkRx + scope.row.networkTx) }}
         </template>
       </el-table-column>
-      <el-table-column v-if="displayMobile" label="容器状态" prop="containerStatus" min-width="125">
+      <el-table-column v-if="displayMobile" label="容器状态" min-width="125" align="center">
         <template slot-scope="scope">
+          <span v-if="scope.row.containerStatus===undefined">
+            <i class="el-icon-s-promotion" />
+          </span>
+
           <el-dropdown v-if="scope.row.containerStatus === 'running'" trigger="click">
             <span class="el-dropdown-link">
               <el-tag type="success"><i class="el-icon-caret-right" /> 正在运行</el-tag>
@@ -74,7 +80,14 @@
 
         </template>
       </el-table-column>
-      <el-table-column v-if="displayMobile" label="容器端口" min-width="80" prop="containerPort" />
+      <el-table-column v-if="displayMobile" label="容器端口" min-width="80" align="center">
+        <template slot-scope="scope">
+          <span v-if="scope.row.containerPort===undefined">
+            <i class="el-icon-s-promotion" />
+          </span>
+          <span v-if="scope.row.containerPort">{{ scope.row.containerPort }}</span>
+        </template>
+      </el-table-column>
       <el-table-column v-if="displayMobile" label="支付" min-width="70">
         <template slot-scope="scope">
           <el-switch
