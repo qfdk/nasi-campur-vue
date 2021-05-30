@@ -10,7 +10,9 @@
         <router-link to="/servers/create">
           <el-button type="primary" @click="createServer()">添加节点</el-button>
         </router-link>
-        <el-button v-if="displayMobile" class="refresh" style="margin-left: 5px" type="primary" @click="refresh()">刷新节点</el-button>
+        <el-button v-if="displayMobile" class="refresh" style="margin-left: 5px" type="primary" @click="refresh()">
+          刷新节点
+        </el-button>
       </el-col>
     </el-row>
     <el-table
@@ -54,13 +56,22 @@
           <el-link :href="scope.row.url" target="_blank" type="primary">{{ scope.row.url }}</el-link>
         </template>
       </el-table-column>
-      <el-table-column
-        v-if="displayMobile"
-        label="容器数量"
-        prop="containersCount"
-        width="80"
-      />
-      <el-table-column v-if="displayMobile" min-width="100px" label="IP" prop="ip" />
+      <!--      <el-table-column-->
+      <!--        v-if="displayMobile"-->
+      <!--        label="容器数量"-->
+      <!--        prop="containersCount"-->
+      <!--        width="80"-->
+      <!--      />-->
+      <el-table-column min-width="80p" label="服务类型">
+        <template slot-scope="scope">
+          <span v-if="scope.row.hasV2ray===true">
+            <i class="el-icon-s-promotion" />
+          </span>
+          <span v-if="scope.row.hasSSR===true">
+            <i class="el-icon-food" />
+          </span>
+        </template>
+      </el-table-column>
       <el-table-column v-if="displayMobile" min-width="75px" label="公共显示">
         <template slot-scope="scope">
           <el-switch
