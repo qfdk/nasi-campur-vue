@@ -1,12 +1,12 @@
 <template>
   <div class="app-container">
     <el-row :gutter="10">
-      <el-col :span="8" :xs="17">
+      <el-col :span="10" :xs="16" :sm="10">
         <el-input v-model="queryInfo.keyword" clearable placeholder="请输入内容" @clear="getUserList()">
           <el-button slot="append" icon="el-icon-search" @click="getUserList()" />
         </el-input>
       </el-col>
-      <el-col :span="8" :xs="7">
+      <el-col :span="14" :xs="8" :sm="14">
         <router-link to="/users/create">
           <el-button type="primary" @click="createUser()">添加用户</el-button>
         </router-link>
@@ -140,13 +140,13 @@ export default {
       },
       listLoading: true,
       screenWidth: window.innerWidth,
-      displayMobile: window.innerWidth > 600
+      displayMobile: window.innerWidth > 768
     }
   },
   watch: {
     screenWidth(val) {
       this.screenWidth = val
-      this.displayMobile = window.innerWidth > 600
+      this.displayMobile = window.innerWidth > 768
     }
   },
   mounted() {
