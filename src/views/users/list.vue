@@ -13,6 +13,9 @@
         <el-button v-if="displayMobile" class="refresh" style="margin-left: 5px" type="primary" @click="refresh()">
           刷新流量
         </el-button>
+        <el-button v-if="displayMobile" class="refresh" style="margin-left: 5px" type="primary" @click="syncV2ray()">
+          v2ray同步
+        </el-button>
       </el-col>
     </el-row>
     <el-table
@@ -259,6 +262,19 @@ export default {
           }
         } else {
           return this.$message.error('刷新流量失败!')
+        }
+      }).catch(e => {
+        this.$message.error(e.toString())
+      })
+    },
+    async syncV2ray() {
+      await this.$http.get(`/api/sync-v2ray`).then(response => {
+        if (response) {
+          if (response.status === 200) {
+            this.$message.success('手动同步 v2ray 成功!')
+          }
+        } else {
+          return this.$message.error('同步失败!')
         }
       }).catch(e => {
         this.$message.error(e.toString())
