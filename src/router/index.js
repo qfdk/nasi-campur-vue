@@ -37,7 +37,12 @@ export const constantRoutes = [
   },
   {
     path: '/speed',
-    component: () => import('@/views/speed/index'),
+    component: () => import('@/views/public/speed/index'),
+    hidden: true
+  },
+  {
+    path: '/status',
+    component: () => import('@/views/public/status/index'),
     hidden: true
   },
   {
