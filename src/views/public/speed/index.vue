@@ -54,11 +54,15 @@ export default {
   },
   methods: {
     async getServerInfo(server) {
-      const date1 = new Date();
       try {
-        await this.$http.get(server.url);
-        const date2 = new Date();
-        return {...server, delta: date2 - date1};
+        const deltas = [];
+        for (let i = 0; i < 3; i++) {
+          const date1 = new Date();
+          await this.$http.get(server.url);
+          const date2 = new Date();
+          deltas.push(date2 - date1);
+        }
+        return {...server, delta: Math.min(...deltas)};
       } catch (e) {
         return {...server, delta: 999};
       }
