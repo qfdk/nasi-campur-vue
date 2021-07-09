@@ -39,67 +39,55 @@
   </div>
 
 </template>
-<script>
-const getServerInfo = (server) => {
-  return new Promise(function(resolve, reject) {
-    const req = new XMLHttpRequest()
-    const date1 = new Date()
-    req.open('GET', server.url, true)
-    req.responseType = 'json'
-    req.setRequestHeader('Accept', 'application/json')
-    req.onload = function() {
-      if (req.status === 200) {
-        const date2 = new Date()
-        resolve({ ...server, delta: date2 - date1 })
-      } else {
-        reject(new Error(req.statusText))
-      }
-    }
-    req.onerror = function() {
-      reject(new Error(req.statusText))
-    }
-    req.send()
-  })
-}
 
+<script>
 export default {
   data() {
     return {
       listLoading: false,
       servers: [],
       tableData: []
-    }
+    };
   },
   created() {
-    this.getServerList()
+    this.getServerList();
   },
   methods: {
-    async fetchData() {
-      this.listLoading = true
-      const tables = []
-      for (const server of this.servers) {
-        tables.push(getServerInfo(server))
+    async getServerInfo(server) {
+      const date1 = new Date();
+      try {
+        await this.$http.get(server.url);
+        const date2 = new Date();
+        return {...server, delta: date2 - date1};
+      } catch (e) {
+        return {...server, delta: 999};
       }
-      const that = this
+    },
+    async fetchData() {
+      this.listLoading = true;
+      const tables = [];
+      for (const server of this.servers) {
+        tables.push(this.getServerInfo(server));
+      }
+      const that = this;
       Promise.all(tables).then(function(results) {
         that.tableData = results.sort((a, b) => {
-          return a.delta - b.delta
-        })
+          return a.delta - b.delta;
+        });
       }).catch(function(err) {
-        console.log(err)
       }).finally(() => {
-        this.listLoading = false
-      })
+        this.listLoading = false;
+      });
     },
     async getServerList() {
       try {
-        const response = await this.$http.get('/api/servers')
-        this.servers = response.data
-        this.tableData = response.data
+        const response = await this.$http.get('/api/servers');
+        this.servers = response.data;
+        this.tableData = response.data;
       } catch (e) {
-        this.$message.error('获取服务器列表失败！')
+        this.$message.error('获取服务器列表失败！');
       }
     }
   }
-}
+};
 </script>
