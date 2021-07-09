@@ -62,6 +62,7 @@ export default {
           const date2 = new Date();
           deltas.push(date2 - date1);
         }
+        console.log(Math.min(...deltas));
         return {...server, delta: Math.min(...deltas)};
       } catch (e) {
         return {...server, delta: 999};
