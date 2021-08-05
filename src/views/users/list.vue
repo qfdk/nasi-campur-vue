@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-row :gutter="10">
       <el-col :span="10" :xs="16" :sm="10">
-        <el-input v-model="queryInfo.keyword" clearable placeholder="请输入内容" @clear="getUserList()">
+        <el-input v-model="queryInfo.keyword" clearable placeholder="请输入内容" @clear="getUserList()" @keyup.enter.native="getUserList">
           <el-button slot="append" icon="el-icon-search" @click="getUserList()" />
         </el-input>
       </el-col>
