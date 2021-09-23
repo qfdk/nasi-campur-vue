@@ -59,6 +59,11 @@
       <el-form-item label="公共显示" prop="isPublic">
         <el-switch v-model="ruleForm.isPublic" />
       </el-form-item>
+      <el-form-item label="中国服务器" prop="isInChina">
+        <el-col :md="8" :xs="24">
+          <el-switch v-model="ruleForm.isInChina" />
+        </el-col>
+      </el-form-item>
       <el-form-item label="排序：" prop="order">
         <el-col :md="8" :xs="24">
           <el-input v-model="ruleForm.order" clearable />
@@ -85,10 +90,11 @@ export default {
         domain: '',
         bigBoss: '',
         description: '',
-        hasSSR: true,
+        hasSSR: false,
         hasV2ray: false,
         v2rayDomain: '',
         isPublic: false,
+        isInChina: false,
         order: 0
       }
     }

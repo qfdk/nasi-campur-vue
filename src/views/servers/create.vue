@@ -60,6 +60,11 @@
           <el-switch v-model="ruleForm.isPublic" />
         </el-col>
       </el-form-item>
+      <el-form-item label="中国服务器" prop="isInChina">
+        <el-col :md="8" :xs="24">
+          <el-switch v-model="ruleForm.isInChina" />
+        </el-col>
+      </el-form-item>
       <el-form-item label="备注：" prop="description">
         <el-col :md="8" :xs="24">
           <el-input v-model="ruleForm.description" clearable />
@@ -90,7 +95,8 @@ export default {
         hasSSR: true,
         v2rayDomain: '',
         hasV2ray: false,
-        isPublic: false
+        isPublic: false,
+        isInChina: false
       }
     }
   },
