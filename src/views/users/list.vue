@@ -275,7 +275,7 @@ export default {
       })
     },
     async syncV2ray() {
-      await this.$http.get(`/api/sync-v2ray`).then(response => {
+      await this.$http.get(`/public/sync-v2ray`).then(response => {
         if (response) {
           if (response.status === 200) {
             this.$message.success('手动同步 v2ray 成功!')

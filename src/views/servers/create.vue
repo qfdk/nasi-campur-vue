@@ -124,7 +124,7 @@ export default {
       this.$refs[formName].resetFields()
     },
     async search() {
-      await this.$http.get('/api/curl?url=' + this.ruleForm.url + '/info').then((response) => {
+      await this.$http.get('/public/curl?url=' + this.ruleForm.url + '/info').then((response) => {
         if (response.status === 200 && !response.data.errorMsg) {
           const data = response.data
           this.ruleForm = { ...data }

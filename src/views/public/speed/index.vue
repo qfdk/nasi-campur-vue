@@ -85,7 +85,7 @@ export default {
     },
     async getServerList() {
       try {
-        const response = await this.$http.get('/api/servers');
+        const response = await this.$http.get('/public/servers');
         this.servers = response.data;
         this.tableData = response.data;
       } catch (e) {
