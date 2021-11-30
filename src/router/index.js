@@ -36,16 +36,6 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '/speed',
-    component: () => import('@/views/public/speed/index'),
-    hidden: true
-  },
-  {
-    path: '/status',
-    component: () => import('@/views/public/status/index'),
-    hidden: true
-  },
-  {
     path: '/404',
     component: () => import('@/views/404'),
     hidden: true

@@ -127,19 +127,19 @@ export default {
   },
   methods: {
     submitForm(formName) {
-      const instanceLoading = Loading.service(undefined)
       this.$refs[formName].validate(async(valid) => {
         if (valid) {
+          const instanceLoading = Loading.service(undefined)
           const { data: res } = await this.$http.post('/api/v2/users/create', {
             ...this.ruleForm
           })
           if (res.status === 200) {
-            instanceLoading.close()
             await this.$router.push({ name: 'list-user' })
             window.localStorage.setItem('activePath', '/users/list')
           } else {
             this.$message.error('添加失败 !')
           }
+          instanceLoading.close()
         } else {
           this.$message.error('验证失败 !')
           return false

@@ -177,9 +177,10 @@ export default {
               await this.$router.push({ name: 'list-user' })
               window.sessionStorage.setItem('activePath', '/users/list')
             } else {
-              this.$message.error('修改失败 !')
+              this.$message.error(`${res.message}`)
             }
           } catch (e) {
+            console.log(e)
             this.$message.error(e.toString())
           }
         } else {
