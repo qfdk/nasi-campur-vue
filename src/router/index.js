@@ -113,7 +113,7 @@ export const constantRoutes = [
     component: Layout,
     children: [
       {
-        path: 'https://fr.qfdk.me',
+        path: 'https://de.qfdk.me',
         meta: { title: '主站', icon: 'link' }
       }
     ]
