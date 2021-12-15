@@ -38,7 +38,7 @@
       <el-table-column label="#" type="index" />
       <el-table-column v-if="displayMobile" label="微信账号" prop="wechatName" min-width="160">
         <template slot-scope="scope">
-          <el-link :href="baseURL+'/search/'+scope.row.wechatName" type="primary">
+          <el-link :href="PORTAL_URL+'/search/'+scope.row.wechatName" type="primary">
             {{ scope.row.wechatName }}
           </el-link>
         </template>
@@ -147,7 +147,7 @@ export default {
       listLoading: true,
       screenWidth: window.innerWidth,
       displayMobile: window.innerWidth > 768,
-      baseURL: process.env.VUE_APP_BASE_API
+      PORTAL_URL: process.env.PORTAL_URL
     }
   },
   watch: {
