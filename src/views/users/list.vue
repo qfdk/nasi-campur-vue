@@ -147,7 +147,7 @@ export default {
       listLoading: true,
       screenWidth: window.innerWidth,
       displayMobile: window.innerWidth > 768,
-      PORTAL_URL: process.env.PORTAL_URL
+      PORTAL_URL: process.env.VUE_APP_PORTAL_URL
     }
   },
   watch: {
