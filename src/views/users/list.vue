@@ -153,7 +153,7 @@ export default {
   watch: {
     screenWidth(val) {
       this.screenWidth = val
-      this.isDesktop = window.innerWidth > 768
+      this.isDesktop = this.screenWidth > 768
       location.reload()
     }
   },
