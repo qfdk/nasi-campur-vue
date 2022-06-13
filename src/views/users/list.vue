@@ -16,10 +16,10 @@
         <router-link to="/users/create">
           <el-button type="primary" @click="createUser()">添加用户</el-button>
         </router-link>
-        <el-button v-if="displayMobile" class="refresh" style="margin-left: 5px" type="primary" @click="refresh()">
+        <el-button v-if="isDesktop" class="refresh" style="margin-left: 5px" type="primary" @click="refresh()">
           刷新流量
         </el-button>
-        <el-button v-if="displayMobile" class="refresh" style="margin-left: 5px" type="primary" @click="syncV2ray()">
+        <el-button v-if="isDesktop" class="refresh" style="margin-left: 5px" type="primary" @click="syncV2ray()">
           v2ray同步
         </el-button>
       </el-col>
@@ -36,7 +36,7 @@
       :cell-style="{padding: '8px;'}"
     >
       <el-table-column label="#" type="index" />
-      <el-table-column v-if="displayMobile" label="微信账号" prop="wechatName" min-width="120">
+      <el-table-column v-if="isDesktop" label="微信账号" prop="wechatName" min-width="120">
         <template slot-scope="scope">
           <el-link :href="PORTAL_URL+'/search/'+scope.row.wechatName" type="primary">
             {{ scope.row.wechatName }}
@@ -44,19 +44,19 @@
         </template>
       </el-table-column>
       <el-table-column label="昵称" prop="nickname" min-width="140" />
-      <el-table-column v-if="displayMobile" label="国家" prop="server.country" min-width="80" />
-      <el-table-column v-if="displayMobile" label="城市" prop="server.location" min-width="120" />
+      <el-table-column v-if="isDesktop" label="国家" prop="server.country" min-width="80" />
+      <el-table-column v-if="isDesktop" label="城市" prop="server.location" min-width="120" />
       <el-table-column label="结束时间" prop="endTime" min-width="100">
         <template slot-scope="scope">
-          {{ $dayjs(scope.row.endTime).format('YYYY-MM-DD') }}
+          {{ getDate(scope.row.endTime) }}
         </template>
       </el-table-column>
-      <el-table-column v-if="displayMobile" label="流量使用" min-width="90">
+      <el-table-column v-if="isDesktop" label="流量使用" min-width="90">
         <template slot-scope="scope">
           {{ toTraffic(scope.row.networkRx + scope.row.networkTx) }}
         </template>
       </el-table-column>
-      <el-table-column v-if="displayMobile" label="容器状态" min-width="125" align="center">
+      <el-table-column v-if="isDesktop" label="容器状态" min-width="125" align="center">
         <template slot-scope="scope">
           <span v-if="scope.row.containerStatus===undefined">
             <i class="el-icon-s-promotion" />
@@ -89,7 +89,7 @@
 
         </template>
       </el-table-column>
-      <el-table-column v-if="displayMobile" label="容器端口" min-width="80" align="center">
+      <el-table-column v-if="isDesktop" label="容器端口" min-width="80" align="center">
         <template slot-scope="scope">
           <span v-if="scope.row.containerPort===undefined">
             <i class="el-icon-s-promotion" />
@@ -97,7 +97,7 @@
           <span v-if="scope.row.containerPort">{{ scope.row.containerPort }}</span>
         </template>
       </el-table-column>
-      <el-table-column v-if="displayMobile" label="支付" min-width="70">
+      <el-table-column v-if="isDesktop" label="支付" min-width="70">
         <template slot-scope="scope">
           <el-switch
             v-model="scope.row.isEnable"
@@ -146,14 +146,15 @@ export default {
       },
       listLoading: true,
       screenWidth: window.innerWidth,
-      displayMobile: window.innerWidth > 768,
+      isDesktop: window.innerWidth > 768,
       PORTAL_URL: process.env.VUE_APP_PORTAL_URL
     }
   },
   watch: {
     screenWidth(val) {
       this.screenWidth = val
-      this.displayMobile = window.innerWidth > 768
+      this.isDesktop = window.innerWidth > 768
+      location.reload()
     }
   },
   mounted() {
@@ -169,6 +170,9 @@ export default {
     this.getUserList()
   },
   methods: {
+    getDate(date) {
+      return this.$dayjs(date).format('YYYY-MM-DD')
+    },
     async getUserList() {
       this.listLoading = true
       const { data: res } = await this.$http.get('/api/v2/users',
