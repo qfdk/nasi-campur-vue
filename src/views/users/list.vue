@@ -109,7 +109,7 @@
       </el-table-column>
       <el-table-column label="操作" min-width="120px">
         <template slot-scope="scope">
-          <el-button icon="el-icon-edit" size="mini" type="primary" @click="editUser(scope.row._id)" />
+          <el-button icon="el-icon-edit" size="mini" type="primary" @click="editUser(scope.row.id)" />
           <el-button
             icon="el-icon-delete"
             size="mini"
@@ -192,7 +192,7 @@ export default {
       this.getUserList()
     },
     async userStateChanged(userInfo) {
-      await this.$http.put(`/api/v2/users/${userInfo._id}/isEnable/${userInfo.isEnable}`).then(response => {
+      await this.$http.put(`/api/v2/users/${userInfo.id}/isEnable/${userInfo.isEnable}`).then(response => {
         if (response) {
           const res = response.data
           if (res.meta.status !== 200) {
@@ -215,7 +215,7 @@ export default {
         cancelButtonText: '取消'
       }).then(async() => {
         const instanceLoading = Loading.service(undefined)
-        await this.$http.delete(`/api/v2/users/${userInfo._id}`).then(async response => {
+        await this.$http.delete(`/api/v2/users/${userInfo.id}`).then(async response => {
           const res = response.data
           if (res.meta.status !== 200) {
             instanceLoading.close()
